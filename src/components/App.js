@@ -3,10 +3,12 @@ import Searchbar from './SearchBar';
 import Collection from './Collection'
 import SearchResults from './SearchResults';
 import Adder from './Adder';
+import Discogs from './util/Discogs';
 import './App.css';
 
 
 function App() {
+
   const [records, setRecords] = useState([
     { artist: "artist1",
       title: "title1",
@@ -61,5 +63,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;

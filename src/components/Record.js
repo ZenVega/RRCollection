@@ -3,7 +3,6 @@ import React from 'react';
 function Record ({title, artist, year, label, size, index, onRemove}) {
 
   const Remove = () => {
-    console.log(index);
     onRemove(index);
   }
 
