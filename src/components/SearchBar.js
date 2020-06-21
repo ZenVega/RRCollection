@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
-import Discogs from './util/Discogs'
 
-function Searchbar () {
+
+function Searchbar ({onSearch}) {
 
   const [term, setTerm] = useState("I wanna know all about...");
 
-
-  const onSearch = (e) => {
+  const search = (e) => {
     e.preventDefault();
-    Discogs.search(term).then(response => console.log(response))
+    onSearch(term);
   }
 
   const changeHandler = (e) => {
@@ -19,7 +18,7 @@ function Searchbar () {
   return(
     <div className="Searchbar">
       <form 
-        onSubmit={e => onSearch(e)}>
+        onSubmit={e => search(e)}>
         <input 
         placeholder="I wanna know all about..."
         onChange={e => changeHandler(e)}

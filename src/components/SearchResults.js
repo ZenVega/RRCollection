@@ -2,13 +2,29 @@ import React from 'react';
 import Record from './Record';
 
 
-function SearchResults({results}) {
+function SearchResults({results, isHidden}) {
+
+  const presentResults = (results) =>{
+    if(!results){
+      return;
+    } else {
+      results.map((record, index) => {
+        return <Record 
+          key={index}
+          index={index}
+          title={record.title} 
+          year={record.year}/>
+      })
+    }
+
+    
+  }
+
   return(
-    <div>
-      {results.map((result, index) => (
-        <Record 
-          key={index}/>
-      ))}
+    <div className="searchResults">
+      <div className="wrapper">
+        {presentResults}
+      </div>
     </div>
   )
 }

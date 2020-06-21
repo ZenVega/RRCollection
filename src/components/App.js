@@ -3,11 +3,13 @@ import Searchbar from './SearchBar';
 import Collection from './Collection'
 import SearchResults from './SearchResults';
 import Adder from './Adder';
-import Discogs from './util/Discogs';
+import Discogs from './util/Discogs'
 import './App.css';
 
 
 function App() {
+
+  const [search, setSearch] = useState({});
 
   const [records, setRecords] = useState([
     { artist: "artist1",
@@ -29,6 +31,10 @@ function App() {
       size: 7
     },
   ]);
+
+  const handleSearch = (term) => {
+    Discogs.search(term).then(response => {console.log(response.results); setSearch(response.results)});
+  }
 
   const addRecord = (artist, title, year, label, size) => {
     const recordList = [...records, {
@@ -52,11 +58,12 @@ function App() {
   return (
     <div className="App">
       <Searchbar 
+      onSearch={handleSearch}
       />
       <Adder 
       onAdd={addRecord}/>
       <SearchResults 
-      results={[]}/>
+      results={search}/>
       <Collection 
       records={records}
       removeRecord={removeRecord}/>
