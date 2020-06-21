@@ -1,0 +1,28 @@
+.App {
+  text-align: center;
+}
+
+.Searchbar{
+  margin: 10px;
+
+}
+
+.Adder {
+  padding: 10px;
+  border: #885d73 solid 2px;
+}
+
+.Collection{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.Record{
+  border: #5f9ea0 solid 2px;
+  margin: 10px;
+  padding: 10px;
+  min-width: 300px;
+  height: 300px;
+  
+}
