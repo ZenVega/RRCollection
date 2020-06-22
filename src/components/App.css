@@ -18,11 +18,52 @@
   flex-wrap: wrap;
 }
 
+.Wrapper{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
 .Record{
   border: #5f9ea0 solid 2px;
   margin: 10px;
   padding: 10px;
-  min-width: 300px;
+  width: 300px;
   height: 300px;
-  
+  background-size: cover;
 }
+
+.Record:hover
+.backImage{
+  filter: gray; /* IE6-9 */
+  -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+  filter: grayscale(1);
+  opacity: 0.2;
+
+}
+
+.backImage{
+  -webkit-filter: grayscale(0);
+  filter: none;
+  position:relative;
+  height: 300px;
+  width: 300px;
+  overflow: hidden;
+  transition: all ease 0.2s;
+  z-index: 1;
+}
+
+.Record:hover
+.infoWrapper{
+  z-index:1;
+  opacity:1;
+  }
+
+.infoWrapper{
+position: relative;
+top: -300px;
+opacity:0;
+transition: all ease 0.2s;
+}
+
+

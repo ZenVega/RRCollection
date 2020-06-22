@@ -9,7 +9,8 @@ import './App.css';
 
 function App() {
 
-  const [search, setSearch] = useState({});
+  const [search, setSearch] = useState([]);
+  const [type, setType] = useState("release_title");
 
   const [records, setRecords] = useState([
     { artist: "artist1",
@@ -32,8 +33,13 @@ function App() {
     },
   ]);
 
-  const handleSearch = (term) => {
-    Discogs.search(term).then(response => {console.log(response.results); setSearch(response.results)});
+  const handleSearch = (term, type) => {
+    Discogs.search(term, type).then(response => setSearch(response.results));
+  }
+
+  const sortBy = (interest) => {
+      console.log('sortBy')
+      setType(interest)
   }
 
   const addRecord = (artist, title, year, label, size) => {
@@ -44,7 +50,6 @@ function App() {
       label,
       size
     }];
-    console.log("now update")
     setRecords(recordList);
   };
 
@@ -58,18 +63,18 @@ function App() {
   return (
     <div className="App">
       <Searchbar 
-      onSearch={handleSearch}
-      />
-      <Adder 
-      onAdd={addRecord}/>
+        searchFor={type}
+        onSearch={handleSearch} />
+      <Adder onAdd={addRecord} />
       <SearchResults 
-      results={search}/>
+        results={search} 
+        onAdd={addRecord}
+        sort={sortBy}/>
       <Collection 
-      records={records}
-      removeRecord={removeRecord}/>
+        records={records}
+        removeRecord={removeRecord}/>
     </div>
   );
 }
-
 
 export default App;

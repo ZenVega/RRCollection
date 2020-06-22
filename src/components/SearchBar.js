@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 
 
-function Searchbar ({onSearch}) {
-
+function Searchbar ({onSearch, searchFor}) {
+  console.log(searchFor)
   const [term, setTerm] = useState("I wanna know all about...");
 
   const search = (e) => {
@@ -21,7 +21,7 @@ function Searchbar ({onSearch}) {
         onSubmit={e => search(e)}>
         <input 
         placeholder="I wanna know all about..."
-        onChange={e => changeHandler(e)}
+        onChange={e => changeHandler(e, searchFor)}
         type="text"/>
         <button type="submit" >Search</button>
       </form>
