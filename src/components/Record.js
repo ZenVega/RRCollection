@@ -1,12 +1,18 @@
 import React from 'react';
 
-function Record ({title, artist, year, label, size, index, onRemove, img}) {
+function Record ({title, artist, year, label, size, index, onRemove, img, collected}) {
   let style = {};
+  let istyle ={};
   
   if(img === "https://img.discogs.com/4e860780db672a6b0038e39cd4613557f36e7df8/images/spacer.gif"){
     img = './norecord.png';
     style = { zIndex: 2,
               opacity: 1}
+  } else if(!img){
+    img = "";
+    istyle = {display:"none"}
+    style = { top:0,
+    opacity: 1}
   }
   const Remove = () => {
     onRemove(index);
@@ -14,7 +20,7 @@ function Record ({title, artist, year, label, size, index, onRemove, img}) {
 
   return(
     <div className="Record" >
-      <img className="backImage" src={img} alt="album_cover"  />
+      <img className="backImage" src={img} alt="album_cover" style={istyle} />
       <div className="infoWrapper" style={style}>
       <h2>{title}</h2>
       <h2>{artist}</h2>

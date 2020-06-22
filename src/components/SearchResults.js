@@ -9,8 +9,7 @@ const presentResults = (results, onAdd) => {
   } else {
     console.log(results);
     const filterArtist = result => result.type !== "artist";
-    const filterMaster = result => result.type !== "release";
-    let filtered = results.filter(filterArtist).filter(filterMaster);
+    let filtered = results.filter(filterArtist);
     console.log(filtered);
     return filtered.map((record, index) => {
       return <Record 
@@ -24,17 +23,11 @@ const presentResults = (results, onAdd) => {
   }
 }
 
-function SearchResults({results, sort, onAdd}) {
+
+function SearchResults({results, sort, onAdd, isHidden}) {
   return(
     <div className="searchResults">
-      <div className="sortBy">
-        {/* <label htmlFor="">show:</label>
-      <button value="type" onClick={(e) => sort(e.target.value)}>All</button>
-      <button value="artist" onClick={(e) => sort(e.target.value)}>Artists</button>
-      <button value="title" onClick={(e) => sort(e.target.value)}>Records</button> */}
-      </div>
-      
-      <div className="Wrapper">
+      <div className="Wrapper" style={{isHidden}}>
         {presentResults(results, type, onAdd)} 
       </div>
     </div>

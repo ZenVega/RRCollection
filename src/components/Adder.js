@@ -62,6 +62,7 @@ function Adder({onAdd}){
           placeholder="Label"/> 
         <select 
           name="addSize" 
+          placeholder="size"
           onChange={e => handleChange(e)}>
           <option value="12">12"</option>
           <option value="10">10"</option>

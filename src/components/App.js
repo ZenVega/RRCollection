@@ -11,6 +11,7 @@ function App() {
 
   const [search, setSearch] = useState([]);
   const [type, setType] = useState("release_title");
+  const [hidden, setHidden] = useState("true");
 
   const [records, setRecords] = useState([
     { artist: "artist1",
@@ -33,7 +34,11 @@ function App() {
     },
   ]);
 
+  const [artist, setArtist] = useState([]);
+  const [label, setLabel] = useState([]);
+
   const handleSearch = (term, type) => {
+    hide("true");
     Discogs.search(term, type).then(response => setSearch(response.results));
   }
 
@@ -60,13 +65,19 @@ function App() {
 
   };
 
+  const hide = (bool) => {
+    setHidden(bool);
+  }
+
   return (
     <div className="App">
       <Searchbar 
         searchFor={type}
-        onSearch={handleSearch} />
+        onSearch={handleSearch}
+        />
       <Adder onAdd={addRecord} />
       <SearchResults 
+        isHidden={hidden} 
         results={search} 
         onAdd={addRecord}
         sort={sortBy}/>
