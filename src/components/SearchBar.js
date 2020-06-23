@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 
 
 function Searchbar ({onSearch, searchFor}) {
-  console.log(searchFor)
   const [term, setTerm] = useState("I wanna know all about...");
 
   const search = (e) => {

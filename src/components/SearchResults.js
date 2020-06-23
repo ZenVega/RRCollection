@@ -7,10 +7,9 @@ const presentResults = (results, onAdd) => {
   if(!results){
     return;
   } else {
-    console.log(results);
     const filterArtist = result => result.type !== "artist";
-    let filtered = results.filter(filterArtist);
-    console.log(filtered);
+    const filterResults = result => result.type !== "results";
+    let filtered = results.filter(filterArtist).filter(filterResults);
     return filtered.map((record, index) => {
       return <Record 
         key={record.id}

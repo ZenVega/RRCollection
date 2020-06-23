@@ -14,28 +14,54 @@ function App() {
   const [hidden, setHidden] = useState("true");
 
   const [records, setRecords] = useState([
-    { artist: "artist1",
-      title: "title1",
-      year: 2020,
-      label: "UrsiRecs",
+    {
+      title:"Chocolate & Cheese",
+      artistID: 1,
+      labelID: 3,
+      year: 2000,
       size: 12
     },
-    { artist: "artist2",
-      title: "title2",
-      year: 2010,
-      label: "UrsiShrecs",
+    {
+      title:"Quebec",
+      artistID: 1,
+      labelID: 3,
+      year: 2005,
       size: 12
     },
-    { artist: "artist3",
-      title: "title3",
-      year: 2022,
-      label: "Records",
-      size: 7
+    {
+      title:"Selftitled",
+      artistID: 2,
+      labelID: 1,
+      year: 2005,
+      size: 12
     },
+    
   ]);
+  const [artists, setArtists] = useState([
+    {
+      name: "Ween",
+      artistID: 1
+    },
+    {
+      name: "AUS",
+      artistID: 2
+    }]);
 
-  const [artist, setArtist] = useState([]);
-  const [label, setLabel] = useState([]);
+  const [labels, setLabels] = useState([
+    {
+      name: "static shock",
+      labelID: 1
+    },
+    {
+      name: "noise solution",
+      labelID: 2
+    },
+    {
+      name: "weenRecs",
+      labelID: 3
+    }
+
+  ]);
 
   const handleSearch = (term, type) => {
     hide("true");
@@ -43,17 +69,52 @@ function App() {
   }
 
   const sortBy = (interest) => {
-      console.log('sortBy')
+
       setType(interest)
   }
 
   const addRecord = (artist, title, year, label, size) => {
+
+    let artistID;
+    let artistObj = artists.find(inListArtist => inListArtist.name === artist);
+    if(artistObj){
+      artistID = artistObj.artistID;
+    }
+
+    if(!artistID){
+      artistID = Math.floor(Math.random()*10*1000);
+
+      const artistsList = [...artists, {
+        name: artist,
+        artistID: artistID
+      }];
+      
+      setArtists(artistsList);
+    }
+
+    let labelID;
+    let labelObj = labels.find(inListLabel => inListLabel.name === label);
+    if(labelObj){
+      labelID = labelObj.labelID;
+    }
+
+    if(!labelID){
+      labelID = Math.floor(Math.random()*10*1000);
+
+      const labelsList = [...labels, {
+        name: label,
+        labelID: labelID
+      }];
+      
+      setLabels(labelsList);
+    }
+    
     const recordList = [...records, {
-      artist,
+      artistID,
       title,
       year,
-      label,
-      size
+      size,
+      labelID
     }];
     setRecords(recordList);
   };
@@ -68,6 +129,10 @@ function App() {
   const hide = (bool) => {
     setHidden(bool);
   }
+  console.log('artists', artists);
+  console.log('records', records)
+  console.log('labels', labels);
+
 
   return (
     <div className="App">
@@ -82,6 +147,8 @@ function App() {
         onAdd={addRecord}
         sort={sortBy}/>
       <Collection 
+        labels={labels}
+        artists={artists}
         records={records}
         removeRecord={removeRecord}/>
     </div>

@@ -10,7 +10,7 @@ function Adder({onAdd}){
   const [size, setSize] = useState("Size");
 
   const handleChange = (e) => {
-    console.log('change')
+
     switch(e.target.name){
       case "addTitle":
       setTitle(e.target.value)
@@ -32,9 +32,7 @@ function Adder({onAdd}){
 
   const addItem = (e) => {
     e.preventDefault();
-    console.log(title, artist);
     onAdd(artist,title, year, label, size);
-    console.log("passed to app.js")
   }
 
   return(
