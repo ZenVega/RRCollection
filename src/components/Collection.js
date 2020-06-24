@@ -4,7 +4,7 @@ import Record from './Record';
 
 
 
-function Collection ({records, removeRecord, artists, labels}){
+function Collection ({records, removeRecord, artists, labels, showEditor}){
 
   const displayArtist = (id) => {
     let currentArtist = artists.find(artist => artist.artistID === id)
@@ -28,6 +28,7 @@ function Collection ({records, removeRecord, artists, labels}){
     <div className="Collection">
       {records.map((record, index) => (
         <Record 
+          showEditor={showEditor}
           key={index}
           artist={displayArtist(record.artistID)}
           title={record.title}

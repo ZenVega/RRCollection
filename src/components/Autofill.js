@@ -1,18 +1,34 @@
+import React, {Fragment} from 'react';
 
-let term = "o";
-let array = ["word", "shit", "lol"];
 
-const Autofill = (term, array) => {
 
-  let suggestions = array.filter(
-    string => 
-     string.toLowerCase().indexOf(term.toLowerCase()) > -1);
-
-     console.log(suggestions);
-     return suggestions;
-  
+const changeTerm = (suggestion, setTerm, target) =>{
+  console.log("setTerm");
+  setTerm(suggestion);
+  target.style.display ='none';
 }
 
-Autofill(term, array);
+const returnSuggestions = (term, array, setTerm) => {
+  //find match
+  if(!term){ return []};
+  let suggestions = array.filter(
+    string => string.toLowerCase().indexOf(term.toLowerCase()) > -1);
+
+    //return listElement for each suggestion
+  return suggestions.map((suggestion, index) => (
+  <p key={index} className="suggestion" onClick={e => changeTerm(suggestion, setTerm, e.target)}>{suggestion}</p>
+  ))
+}
+
+
+function Autofill ({term, array, setTerm}) {
+
+  return(
+    <Fragment>
+      {returnSuggestions(term, array, setTerm)}
+    </Fragment>
+  )
+
+}
 
 export default Autofill;

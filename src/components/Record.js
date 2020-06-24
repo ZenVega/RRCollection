@@ -1,6 +1,12 @@
 import React from 'react';
 
-function Record ({title, artist, year, label, size, index, onRemove, img, collected}) {
+const Remove = (onRemove, index) => {
+  onRemove(index);
+}
+
+
+
+function Record ({title, artist, year, label, size, index, onRemove, img, showEditor}) {
   let style = {};
   let istyle ={};
   
@@ -14,9 +20,6 @@ function Record ({title, artist, year, label, size, index, onRemove, img, collec
     style = { top:0,
     opacity: 1}
   }
-  const Remove = () => {
-    onRemove(index);
-  }
 
   return(
     <div className="Record" >
@@ -27,7 +30,8 @@ function Record ({title, artist, year, label, size, index, onRemove, img, collec
       <p>{year}</p>
       <p>{label}</p>
       <p>{size}"</p>
-      <button onClick={() => Remove(index)}>x</button>
+      <button onClick={() => Remove(onRemove, index)}>✖︎</button>
+      <button onClick={() => {showEditor("edit")}}>✎</button>
     </div>
       
     </div>

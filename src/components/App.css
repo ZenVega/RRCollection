@@ -1,15 +1,49 @@
 .App {
   text-align: center;
+  justify-content: center;
 }
 
 .Searchbar{
   margin: 10px;
-
 }
 
-.Adder {
+/* all about the Editor */
+
+.Editor {
+  display: none;
+  position:fixed;
+  height: 70vh;
+  background-color: grey;
   padding: 10px;
   border: #885d73 solid 2px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+}
+
+.inputWrapper {
+  flex-wrap: wrap;  
+  height: 25px;
+  padding: 5px;
+}
+
+.suggestion{
+  opacity:0;
+  font-size: 12px;
+  z-index: 2;
+  padding: 5px;
+  background-color: #ceebe7;
+  margin: 0;
+}
+.inputWrapper input:focus ~
+.suggestion {
+  opacity:1;
+}
+
+.suggestion:hover {
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .Collection{
@@ -39,7 +73,6 @@
   -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
   filter: grayscale(1);
   opacity: 0.2;
-
 }
 
 .backImage{
@@ -65,5 +98,6 @@ top: -300px;
 opacity:0;
 transition: all ease 0.2s;
 }
+
 
 

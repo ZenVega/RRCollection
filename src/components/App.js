@@ -1,9 +1,9 @@
 import React, { useState} from 'react';
 import Searchbar from './SearchBar';
-import Collection from './Collection'
+import Editor from './Editor';
+import Collection from './Collection';
 import SearchResults from './SearchResults';
-import Adder from './Adder';
-import Discogs from './util/Discogs'
+import Discogs from './util/Discogs';
 import './App.css';
 
 
@@ -11,7 +11,8 @@ function App() {
 
   const [search, setSearch] = useState([]);
   const [type, setType] = useState("release_title");
-  const [hidden, setHidden] = useState("true");
+  const [hidden, setHidden] = useState({display: 'none'});
+  const [cause, setCause] = useState("edit");
 
   const [records, setRecords] = useState([
     {
@@ -45,7 +46,7 @@ function App() {
     {
       name: "AUS",
       artistID: 2
-    }]);
+  }]);
 
   const [labels, setLabels] = useState([
     {
@@ -64,12 +65,10 @@ function App() {
   ]);
 
   const handleSearch = (term, type) => {
-    hide("true");
     Discogs.search(term, type).then(response => setSearch(response.results));
   }
 
   const sortBy = (interest) => {
-
       setType(interest)
   }
 
@@ -126,12 +125,21 @@ function App() {
 
   };
 
-  const hide = (bool) => {
-    setHidden(bool);
+
+
+  const passForSuggestions = (array, topic) => {
+    let suggestions = [];
+    array.map(element => suggestions.push(element[topic]));
+    return suggestions;
   }
-  console.log('artists', artists);
-  console.log('records', records)
-  console.log('labels', labels);
+
+  const showEditor = (ed_add) => {
+    console.log(ed_add)
+    setCause(ed_add);
+    setHidden({display: "flex"});
+
+    console.log(cause);
+  }
 
 
   return (
@@ -139,14 +147,22 @@ function App() {
       <Searchbar 
         searchFor={type}
         onSearch={handleSearch}
+        showEditor={showEditor}
         />
-      <Adder onAdd={addRecord} />
+      <Editor 
+        cause={cause}
+        style={hidden}
+        onAdd={addRecord} 
+        titles={passForSuggestions(records, "title")}
+        artists={passForSuggestions(artists, "name")}
+        labels={passForSuggestions(labels, "name")}/>
       <SearchResults 
         isHidden={hidden} 
         results={search} 
         onAdd={addRecord}
         sort={sortBy}/>
       <Collection 
+        showEditor={showEditor}
         labels={labels}
         artists={artists}
         records={records}
