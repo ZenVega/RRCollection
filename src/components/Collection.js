@@ -30,6 +30,7 @@ function Collection ({records, removeRecord, artists, labels, showEditor}){
         <Record 
           showEditor={showEditor}
           key={index}
+          index={index}
           artist={displayArtist(record.artistID)}
           title={record.title}
           year={record.year}

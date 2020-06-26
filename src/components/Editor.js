@@ -1,8 +1,8 @@
 /* eslint-disable default-case */
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import Autofill from './Autofill';
 
-function Editor({onAdd, titles, artists, labels, style, cause}){
+function Editor({onAdd, onRemove, index, titles, artists, labels, style, version, setHidden}){
 
   const [title, setTitle] = useState("");
   const [artist, setArtist] = useState("");
@@ -10,30 +10,6 @@ function Editor({onAdd, titles, artists, labels, style, cause}){
   const [label, setLabel] = useState("");
   const [size, setSize] = useState("12");
 
-  const [version, setVersion] = useState(
-    {
-    header: 'Add Record',
-    button: "Add"
-    }
-  )
-
-  const changeVersion = () => {
-    if(cause === "edit") {
-      setVersion(
-        {
-          header: 'Edit Record',
-          button: "Save Changes"
-        }
-      )
-    } else {
-      setVersion(
-        {
-          header: 'Add Record',
-          button: "Add"
-        }
-      )
-    }
-  };
 
 
   const handleChange = (e) => {
@@ -59,13 +35,20 @@ function Editor({onAdd, titles, artists, labels, style, cause}){
 
 
   const addItem = (e) => {
+
+
+    if(typeof index === 'number'){
+      console.log("delete")
+      onRemove(index);
+    }
     e.preventDefault();
     onAdd(artist,title, year, label, size);
+    setHidden( {display: "none" });
   }
 
 
   return(
-    <div >
+    <div>
       <form className="Editor"
             style={style}
             onSubmit={e => addItem(e)}>
@@ -127,12 +110,13 @@ function Editor({onAdd, titles, artists, labels, style, cause}){
           </select>
         </div>
         <div className="inputWrapper">
-  <button type="submit">{version.button}</button>
-  <button>✖︎</button>
+  <button 
+  onSubmit={addItem}
+  type="submit" >{version.button}</button>
+  <button onClick={() => setHidden( {display: "none" })}>✖︎</button>
         </div>
       </form>
     </div>
-    
   )
 }
 

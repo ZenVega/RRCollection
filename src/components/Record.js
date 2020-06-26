@@ -31,7 +31,7 @@ function Record ({title, artist, year, label, size, index, onRemove, img, showEd
       <p>{label}</p>
       <p>{size}"</p>
       <button onClick={() => Remove(onRemove, index)}>✖︎</button>
-      <button onClick={() => {showEditor("edit")}}>✎</button>
+      <button onClick={() => {showEditor(index)}}>✎</button>
     </div>
       
     </div>

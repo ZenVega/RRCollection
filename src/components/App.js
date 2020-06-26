@@ -13,6 +13,13 @@ function App() {
   const [type, setType] = useState("release_title");
   const [hidden, setHidden] = useState({display: 'none'});
   const [cause, setCause] = useState("edit");
+  
+  const [version, setVersion] = useState(
+    {
+    header: 'Add Record',
+    button: "Add"
+    }
+  )
 
   const [records, setRecords] = useState([
     {
@@ -116,15 +123,16 @@ function App() {
       labelID
     }];
     setRecords(recordList);
-  };
+  }
 
   const removeRecord = index => {
+    console.log(index);
     const recordList = [...records];
     recordList.splice(index, 1);
     setRecords(recordList);
+    console.log(recordList);
 
-  };
-
+  }
 
 
   const passForSuggestions = (array, topic) => {
@@ -133,12 +141,31 @@ function App() {
     return suggestions;
   }
 
-  const showEditor = (ed_add) => {
-    console.log(ed_add)
-    setCause(ed_add);
-    setHidden({display: "flex"});
 
-    console.log(cause);
+  const changeVersion = () => {
+    if(cause === "add") {
+      setVersion(
+        {
+          header: 'Add Record',
+          button: "Add"
+        }
+      )
+    } else {
+      setVersion(
+        {
+          header: 'Edit Record',
+          button: "Save Changes"
+        }
+      )
+    }
+  };
+
+
+  const showEditor = (ed_add) => {
+
+   setCause(ed_add);
+   changeVersion();
+   setHidden({ display: "flex" });
   }
 
 
@@ -149,10 +176,13 @@ function App() {
         onSearch={handleSearch}
         showEditor={showEditor}
         />
-      <Editor 
-        cause={cause}
+      <Editor
+        index = {cause}
+        version={version}
         style={hidden}
+        setHidden={setHidden}
         onAdd={addRecord} 
+        onRemove={removeRecord}
         titles={passForSuggestions(records, "title")}
         artists={passForSuggestions(artists, "name")}
         labels={passForSuggestions(labels, "name")}/>
