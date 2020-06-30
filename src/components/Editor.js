@@ -1,58 +1,81 @@
 /* eslint-disable default-case */
-import React, { useState } from 'react';
+import React from 'react';
 import Autofill from './Autofill';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear } from '../actions';
 
-function Editor({onAdd, onRemove, index, titles, artists, labels, style, version, setHidden}){
+function Editor({onAdd, index, style, setHidden}){
 
-  const [title, setTitle] = useState("");
-  const [artist, setArtist] = useState("");
-  const [year, setYear] = useState("");
-  const [label, setLabel] = useState("");
-  const [size, setSize] = useState("12");
+  const dispatch = useDispatch();
+
+  const records = useSelector(state => state.collection.records);
+  const artists = useSelector(state => state.collection.artists);
+  const labels = useSelector(state => state.collection.labels);
+
+  
+  const labelNames = labels.map(label => label.name);
+  const artistNames = artists.map(artist => artist.name);
+  const recordNames = records.map(record => record.title);
+  console.log(records);
+  console.log(recordNames);
+
+
+  const title = useSelector(state => state.record.title);
+  const artist = useSelector(state => state.record.artist);
+  const label = useSelector(state => state.record.label);
+  const year = useSelector(state => state.record.year);
+  const size = useSelector(state => state.record.size);
+
+  const version = useSelector(state => state.add)
+
+  
+
 
 
 
   const handleChange = (e) => {
-
+    
     switch(e.target.name){
       case "addTitle":
-      setTitle(e.target.value)
+      dispatch(changeTitle(e.target.value))
       break;
       case "addArtist":
-      setArtist(e.target.value);
+      dispatch(changeArtist(e.target.value))
       break;
       case "addYear":
-      setYear(e.target.value);
+      dispatch(changeYear(e.target.value))
       break;
       case "addLabel":
-      setLabel(e.target.value);
+      dispatch(changeLabel(e.target.value))
       break;
       case "addSize":
-      setSize(e.target.value);
+      dispatch(changeSize(e.target.value))
       break;
     }
   }
 
+  
 
-  const addItem = (e) => {
+  const addItem = e => {
 
-
-    if(typeof index === 'number'){
+    if(index){
       console.log("delete")
-      onRemove(index);
+      dispatch(removeRecord(index));
     }
     e.preventDefault();
+
     onAdd(artist,title, year, label, size);
     setHidden( {display: "none" });
   }
+
 
 
   return(
     <div>
       <form className="Editor"
             style={style}
-            onSubmit={e => addItem(e)}>
-        <h2> {version.header}</h2>
+            onSubmit={addItem}>
+        <h2> {version + ' record'}</h2>
         <div className="inputWrapper">
           <input 
             type="text"
@@ -63,8 +86,8 @@ function Editor({onAdd, onRemove, index, titles, artists, labels, style, version
           <Autofill
             className="Autofill"
             term={title}
-            array={titles} 
-            setTerm={setTitle}/>
+            array={recordNames} 
+            setTerm={changeTitle}/>
         </div>
         <div className="inputWrapper">
           <input 
@@ -76,13 +99,14 @@ function Editor({onAdd, onRemove, index, titles, artists, labels, style, version
              <Autofill
              className="Autofill"
              term={artist}
-             array={artists} 
-             setTerm={setArtist}/>
+             array={artistNames} 
+             setTerm={changeArtist}/>
           </div>
         <div className="inputWrapper">
           <input 
             type="number"
             name="addYear"
+            value={year}
             onChange={e => handleChange(e)}
             placeholder="Year"/> 
           </div>
@@ -96,8 +120,8 @@ function Editor({onAdd, onRemove, index, titles, artists, labels, style, version
           <Autofill
             className="Autofill"
             term={label}
-            array={labels} 
-            setTerm={setLabel}/>
+            array={labelNames} 
+            setTerm={changeLabel}/>
         </div>
         <div className="inputWrapper">
           <select 
@@ -112,7 +136,7 @@ function Editor({onAdd, onRemove, index, titles, artists, labels, style, version
         <div className="inputWrapper">
   <button 
   onSubmit={addItem}
-  type="submit" >{version.button}</button>
+  type="submit" >{version}</button>
   <button onClick={() => setHidden( {display: "none" })}>✖︎</button>
         </div>
       </form>

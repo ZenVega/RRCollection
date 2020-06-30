@@ -1,3 +1,8 @@
+// ADD NEW RECORD BUTTEN COLLAPSES
+//EDITOR WIRD 2X GEMOUNTED
+
+
+
 import React, { useState} from 'react';
 import Searchbar from './SearchBar';
 import Editor from './Editor';
@@ -6,70 +11,25 @@ import SearchResults from './SearchResults';
 import Discogs from './util/Discogs';
 import './App.css';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist } from '../actions';
+
+
 
 function App() {
+
+  const records = useSelector(state => state.collection.records)
+  const labels = useSelector(state => state.collection.labels)
+  const artists = useSelector(state => state.collection.artists)
+  const dispatch = useDispatch();
+
+/*   const version = useSelector(state => state.add); */
 
   const [search, setSearch] = useState([]);
   const [type, setType] = useState("release_title");
   const [hidden, setHidden] = useState({display: 'none'});
-  const [cause, setCause] = useState("edit");
+
   
-  const [version, setVersion] = useState(
-    {
-    header: 'Add Record',
-    button: "Add"
-    }
-  )
-
-  const [records, setRecords] = useState([
-    {
-      title:"Chocolate & Cheese",
-      artistID: 1,
-      labelID: 3,
-      year: 2000,
-      size: 12
-    },
-    {
-      title:"Quebec",
-      artistID: 1,
-      labelID: 3,
-      year: 2005,
-      size: 12
-    },
-    {
-      title:"Selftitled",
-      artistID: 2,
-      labelID: 1,
-      year: 2005,
-      size: 12
-    },
-    
-  ]);
-  const [artists, setArtists] = useState([
-    {
-      name: "Ween",
-      artistID: 1
-    },
-    {
-      name: "AUS",
-      artistID: 2
-  }]);
-
-  const [labels, setLabels] = useState([
-    {
-      name: "static shock",
-      labelID: 1
-    },
-    {
-      name: "noise solution",
-      labelID: 2
-    },
-    {
-      name: "weenRecs",
-      labelID: 3
-    }
-
-  ]);
 
   const handleSearch = (term, type) => {
     Discogs.search(term, type).then(response => setSearch(response.results));
@@ -90,13 +50,13 @@ function App() {
     if(!artistID){
       artistID = Math.floor(Math.random()*10*1000);
 
-      const artistsList = [...artists, {
+      const artistToAdd = {
         name: artist,
         artistID: artistID
-      }];
-      
-      setArtists(artistsList);
+      };
+      dispatch(addNewArtist(artistToAdd))
     }
+
 
     let labelID;
     let labelObj = labels.find(inListLabel => inListLabel.name === label);
@@ -107,64 +67,40 @@ function App() {
     if(!labelID){
       labelID = Math.floor(Math.random()*10*1000);
 
-      const labelsList = [...labels, {
+      const labelToAdd = {
         name: label,
         labelID: labelID
-      }];
-      
-      setLabels(labelsList);
+      };
+      dispatch(addNewLabel(labelToAdd))
     }
-    
-    const recordList = [...records, {
+
+
+    const recordToAdd = {
       artistID,
       title,
       year,
       size,
       labelID
-    }];
-    setRecords(recordList);
-  }
+    };
 
-  const removeRecord = index => {
-    console.log(index);
-    const recordList = [...records];
-    recordList.splice(index, 1);
-    setRecords(recordList);
-    console.log(recordList);
-
+    dispatch(addNewRecord(recordToAdd));
   }
 
 
-  const passForSuggestions = (array, topic) => {
-    let suggestions = [];
-    array.map(element => suggestions.push(element[topic]));
-    return suggestions;
-  }
-
-
-  const changeVersion = () => {
-    if(cause === "add") {
-      setVersion(
-        {
-          header: 'Add Record',
-          button: "Add"
-        }
-      )
+  const showEditor = (index) => {
+    if(index){
+      dispatch(changeTitle(records[index].title));
+      dispatch(changeYear(records[index].year));
+      dispatch(changeSize(records[index].size));
+      dispatch(changeArtist(artists.filter(artist => artist.artistID === records[index].artistID)[0].name));
+      dispatch(changeLabel(labels.filter(label => label.labelID === records[index].labelID)[0].name));
     } else {
-      setVersion(
-        {
-          header: 'Edit Record',
-          button: "Save Changes"
-        }
-      )
+      dispatch(changeTitle(''));
+      dispatch(changeYear(''));
+      dispatch(changeSize('12'));
+      dispatch(changeArtist(''));
+      dispatch(changeLabel(''));
     }
-  };
-
-
-  const showEditor = (ed_add) => {
-
-   setCause(ed_add);
-   changeVersion();
    setHidden({ display: "flex" });
   }
 
@@ -177,15 +113,10 @@ function App() {
         showEditor={showEditor}
         />
       <Editor
-        index = {cause}
-        version={version}
         style={hidden}
         setHidden={setHidden}
         onAdd={addRecord} 
-        onRemove={removeRecord}
-        titles={passForSuggestions(records, "title")}
-        artists={passForSuggestions(artists, "name")}
-        labels={passForSuggestions(labels, "name")}/>
+      />
       <SearchResults 
         isHidden={hidden} 
         results={search} 
@@ -195,8 +126,7 @@ function App() {
         showEditor={showEditor}
         labels={labels}
         artists={artists}
-        records={records}
-        removeRecord={removeRecord}/>
+        records={records}/>
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-
+import { sortByArtist, sortByTitle } from '../actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { addRecord } from '../actions';
 
   const search = (e, onSearch, term) => {
     e.preventDefault();
@@ -11,10 +13,16 @@ import React, {useState} from 'react';
   }
 
 
-  
-
 function Searchbar ({onSearch, showEditor}) {
+  const records = useSelector(state => state.collection.records);
+  const dispatch = useDispatch();
   const [term, setTerm] = useState("I wanna know all about...");
+
+  const openEditor = () => {
+    console.log(records)
+    dispatch(addRecord());
+    showEditor();
+  }
 
   return(
     <div className="Searchbar">
@@ -26,7 +34,12 @@ function Searchbar ({onSearch, showEditor}) {
         type="text"/>
         <button type="submit" >Search</button>
       </form>
-      <button onClick={() => showEditor("add")} >AddRecord</button>
+      <div>
+      <label>sort by:</label>
+      <button onClick={() => dispatch(sortByArtist())}>artist</button>
+      <button onClick={() => dispatch(sortByTitle())}>title</button>
+      </div>
+      <button onClick={() => openEditor()} >add new record</button>
     </div>
   )
 }

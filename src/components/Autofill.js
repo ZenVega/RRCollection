@@ -3,14 +3,14 @@ import React, {Fragment} from 'react';
 
 
 const changeTerm = (suggestion, setTerm, target) =>{
-  console.log("setTerm");
   setTerm(suggestion);
   target.style.display ='none';
 }
 
 const returnSuggestions = (term, array, setTerm) => {
+
   //find match
-  if(!term){ return []};
+  if(!term || typeof term !== 'string'){ return []};
   let suggestions = array.filter(
     string => string.toLowerCase().indexOf(term.toLowerCase()) > -1);
 
@@ -24,7 +24,7 @@ const returnSuggestions = (term, array, setTerm) => {
 function Autofill ({term, array, setTerm}) {
 
   return(
-    <Fragment>
+    <Fragment >
       {returnSuggestions(term, array, setTerm)}
     </Fragment>
   )

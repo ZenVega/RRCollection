@@ -1,12 +1,12 @@
 import React from 'react';
-
-const Remove = (onRemove, index) => {
-  onRemove(index);
-}
+import { useDispatch } from 'react-redux';
+import {removeRecord, editRecord} from '../actions';
 
 
 
-function Record ({title, artist, year, label, size, index, onRemove, img, showEditor}) {
+function Record ({title, artist, year, label, size, index, img, showEditor}) {
+
+  let dispatch =  useDispatch();
   let style = {};
   let istyle ={};
   
@@ -21,6 +21,12 @@ function Record ({title, artist, year, label, size, index, onRemove, img, showEd
     opacity: 1}
   }
 
+  const openEditor = () => {
+    console.log('open')
+    dispatch(editRecord());
+    showEditor(index);
+  }
+
   return(
     <div className="Record" >
       <img className="backImage" src={img} alt="album_cover" style={istyle} />
@@ -30,8 +36,8 @@ function Record ({title, artist, year, label, size, index, onRemove, img, showEd
       <p>{year}</p>
       <p>{label}</p>
       <p>{size}"</p>
-      <button onClick={() => Remove(onRemove, index)}>✖︎</button>
-      <button onClick={() => {showEditor(index)}}>✎</button>
+      <button onClick={() => dispatch(removeRecord(index))}>✖︎</button>
+      <button onClick={() => openEditor()}>✎</button>
     </div>
       
     </div>

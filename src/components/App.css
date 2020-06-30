@@ -29,13 +29,15 @@
 }
 
 .suggestion{
+  position:relative;
   opacity:0;
   font-size: 12px;
-  z-index: 2;
+  z-index: 5;
   padding: 5px;
   background-color: #ceebe7;
   margin: 0;
 }
+
 .inputWrapper input:focus ~
 .suggestion {
   opacity:1;

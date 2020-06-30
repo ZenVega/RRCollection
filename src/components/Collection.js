@@ -1,10 +1,15 @@
 import React from 'react';
 import Record from './Record';
+import { useSelector } from 'react-redux';
 
 
 
+function Collection ({showEditor}){
 
-function Collection ({records, removeRecord, artists, labels, showEditor}){
+  let artists = useSelector(state => state.collection.artists);
+  let labels = useSelector(state => state.collection.labels);
+  let records = useSelector(state => state.collection.records);
+  let sortByTerm = useSelector(state => state.sortBy)
 
   const displayArtist = (id) => {
     let currentArtist = artists.find(artist => artist.artistID === id)
@@ -24,21 +29,47 @@ function Collection ({records, removeRecord, artists, labels, showEditor}){
     }
   }
 
+  const sortBy = (term) => {
+
+    let newOrder = records.sort((a, b) => {
+      let objA;
+      let objB;
+
+      if(term === 'title'){
+        objA = a.title.toUpperCase();
+        objB = b.title.toUpperCase();  
+      } else if(term === 'artist'){
+        objA = artists.find(artist => artist.artistID === a.artistID).name.toUpperCase();
+        objB = artists.find(artist => artist.artistID === b.artistID).name.toUpperCase();
+      }
+      
+      let comparison = 0;
+      if (objA > objB) {
+        comparison = 1;
+      } else if (objA < objB) {
+        comparison = -1;
+      }
+      return comparison;
+    });
+
+
+    return newOrder.map((record, index) => (
+      <Record 
+        showEditor={showEditor}
+        key={index}
+        index={index}
+        artist={displayArtist(record.artistID)}
+        title={record.title}
+        year={record.year}
+        label={displayLabel(record.labelID)}
+        size={record.size}/>
+    ))
+  }
+
+ 
   return(
     <div className="Collection">
-      {records.map((record, index) => (
-        <Record 
-          showEditor={showEditor}
-          key={index}
-          index={index}
-          artist={displayArtist(record.artistID)}
-          title={record.title}
-          year={record.year}
-          label={displayLabel(record.labelID)}
-          size={record.size}
-          onRemove={removeRecord}
-        />
-      ))}
+      {sortBy(sortByTerm)}
     </div>
   )
 }
