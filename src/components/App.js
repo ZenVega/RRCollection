@@ -1,5 +1,5 @@
-// ADD NEW RECORD BUTTEN COLLAPSES
 //EDITOR WIRD 2X GEMOUNTED
+// Edit record löscht nicht die alte platte
 
 
 

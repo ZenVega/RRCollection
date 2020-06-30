@@ -74,7 +74,7 @@ function Editor({onAdd, index, style, setHidden}){
     <div>
       <form className="Editor"
             style={style}
-            onSubmit={addItem}>
+            >
         <h2> {version + ' record'}</h2>
         <div className="inputWrapper">
           <input 

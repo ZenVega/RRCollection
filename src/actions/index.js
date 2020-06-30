@@ -75,11 +75,11 @@ export const sortByTitle = () => {
 
 export const addRecord = () => {
   return {
-    type: 'ADD_RECORD'
+    type: 'ADD_CURRENT_RECORD'
   }
 }
 export const editRecord = () => {
   return {
-    type: 'EDIT_RECORD'
+    type: 'EDIT_CURRENT_RECORD'
   }
 }

@@ -11,9 +11,9 @@ export const sortByReducer =(state = 'artist', action) => {
 
 export const addReducer =(state = 'add', action) => {
   switch (action.type){
-    case 'ADD_RECORD':
+    case 'ADD_CURRENT_RECORD':
       return state = 'add';
-    case 'EDIT_RECORD':
+    case 'EDIT_CURRENT_RECORD':
       return state = 'edit';
     default:
       return state;
