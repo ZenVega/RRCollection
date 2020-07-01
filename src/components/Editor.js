@@ -2,36 +2,29 @@
 import React from 'react';
 import Autofill from './Autofill';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear } from '../actions';
+import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist , hideEditor } from '../actions';
 
-function Editor({onAdd, index, style, setHidden}){
+function Editor({ style }){
 
   const dispatch = useDispatch();
 
   const records = useSelector(state => state.collection.records);
   const artists = useSelector(state => state.collection.artists);
   const labels = useSelector(state => state.collection.labels);
-
   
-  const labelNames = labels.map(label => label.name);
-  const artistNames = artists.map(artist => artist.name);
-  const recordNames = records.map(record => record.title);
-  console.log(records);
-  console.log(recordNames);
-
-
   const title = useSelector(state => state.record.title);
   const artist = useSelector(state => state.record.artist);
   const label = useSelector(state => state.record.label);
   const year = useSelector(state => state.record.year);
   const size = useSelector(state => state.record.size);
-
-  const version = useSelector(state => state.add)
-
   
-
-
-
+  const index = useSelector(state => state.variables.indexOfCurrentRecord);
+  const version = useSelector(state => state.add);
+  
+  const labelNames = labels.map(label => label.name);
+  const artistNames = artists.map(artist => artist.name);
+  const recordNames = records.map(record => record.title);
+  
 
   const handleChange = (e) => {
     
@@ -54,18 +47,57 @@ function Editor({onAdd, index, style, setHidden}){
     }
   }
 
-  
 
   const addItem = e => {
+    e.preventDefault();
+    console.log(index);
 
-    if(index){
-      console.log("delete")
+    if(index !== undefined){
+      console.log(records.index)
       dispatch(removeRecord(index));
     }
-    e.preventDefault();
 
-    onAdd(artist,title, year, label, size);
-    setHidden( {display: "none" });
+    let artistID;
+    let artistObj = artists.find(inListArtist => inListArtist.name === artist);
+    if(artistObj){
+      artistID = artistObj.artistID;
+    }
+
+    if(!artistID){
+      artistID = Math.floor(Math.random()*10*1000);
+      const artistToAdd = {
+        name: artist,
+        artistID: artistID
+      };
+      dispatch(addNewArtist(artistToAdd))
+    }
+
+
+    let labelID;
+    let labelObj = labels.find(inListLabel => inListLabel.name === label);
+    if(labelObj){
+      labelID = labelObj.labelID;
+    }
+
+    if(!labelID){
+      labelID = Math.floor(Math.random()*10*1000);
+      const labelToAdd = {
+        name: label,
+        labelID: labelID
+      };
+      dispatch(addNewLabel(labelToAdd))
+    }
+
+
+    const recordToAdd = {
+      artistID,
+      title,
+      year,
+      size,
+      labelID
+    };
+    dispatch(addNewRecord(recordToAdd));
+    dispatch(hideEditor());
   }
 
 
@@ -74,7 +106,7 @@ function Editor({onAdd, index, style, setHidden}){
     <div>
       <form className="Editor"
             style={style}
-            >
+            onSubmit={e=>addItem(e)}>
         <h2> {version + ' record'}</h2>
         <div className="inputWrapper">
           <input 
@@ -135,9 +167,9 @@ function Editor({onAdd, index, style, setHidden}){
         </div>
         <div className="inputWrapper">
   <button 
-  onSubmit={addItem}
+  onClick={e => addItem(e)}
   type="submit" >{version}</button>
-  <button onClick={() => setHidden( {display: "none" })}>✖︎</button>
+  <button onClick={() => dispatch(hideEditor())}>✖︎</button>
         </div>
       </form>
     </div>

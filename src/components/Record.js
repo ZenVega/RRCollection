@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import {removeRecord, editRecord} from '../actions';
+import {removeRecord, editRecord, updateIndex} from '../actions';
 
 
 
@@ -22,8 +22,8 @@ function Record ({title, artist, year, label, size, index, img, showEditor}) {
   }
 
   const openEditor = () => {
-    console.log('open')
     dispatch(editRecord());
+    dispatch(updateIndex(index))
     showEditor(index);
   }
 

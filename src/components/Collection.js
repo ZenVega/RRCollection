@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 
 
-function Collection ({showEditor}){
+function Collection (){
 
   let artists = useSelector(state => state.collection.artists);
   let labels = useSelector(state => state.collection.labels);
@@ -55,7 +55,6 @@ function Collection ({showEditor}){
 
     return newOrder.map((record, index) => (
       <Record 
-        showEditor={showEditor}
         key={index}
         index={index}
         artist={displayArtist(record.artistID)}

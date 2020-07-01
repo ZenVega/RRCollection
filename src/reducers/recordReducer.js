@@ -17,6 +17,8 @@ const recordReducer = (state = initialRecordState, action) => {
     case 'CHANGE_SIZE':
       return {...state,
         size: action.payload}
+    case 'CHANGE_INDEX':
+      return {}
     default: return state;
   }
 }

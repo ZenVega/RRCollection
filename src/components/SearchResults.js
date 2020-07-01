@@ -23,7 +23,8 @@ const presentResults = (results, onAdd) => {
 }
 
 
-function SearchResults({results, sort, onAdd, isHidden}) {
+
+function SearchResults({results, onAdd, isHidden}) {
   return(
     <div className="searchResults">
       <div className="Wrapper" style={{isHidden}}>

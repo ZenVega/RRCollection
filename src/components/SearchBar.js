@@ -14,12 +14,10 @@ import { addRecord } from '../actions';
 
 
 function Searchbar ({onSearch, showEditor}) {
-  const records = useSelector(state => state.collection.records);
   const dispatch = useDispatch();
   const [term, setTerm] = useState("I wanna know all about...");
 
   const openEditor = () => {
-    console.log(records)
     dispatch(addRecord());
     showEditor();
   }
@@ -35,9 +33,9 @@ function Searchbar ({onSearch, showEditor}) {
         <button type="submit" >Search</button>
       </form>
       <div>
-      <label>sort by:</label>
-      <button onClick={() => dispatch(sortByArtist())}>artist</button>
-      <button onClick={() => dispatch(sortByTitle())}>title</button>
+        <label>sort by:</label>
+        <button onClick={() => dispatch(sortByArtist())}>artist</button>
+        <button onClick={() => dispatch(sortByTitle())}>title</button>
       </div>
       <button onClick={() => openEditor()} >add new record</button>
     </div>

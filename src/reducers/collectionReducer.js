@@ -26,7 +26,7 @@ import {initialCollectionState} from './initialState';
     case 'EDIT_RECORD':
       return {
         ...state, 
-        records: state.records.filter((record, index) => index !== action.payload)
+        records: state.records.splice(action.payload)
       }
     default:
       return state; 

@@ -24,6 +24,13 @@ export const removeRecord = id => {
     payload: id
   }
 }
+export const editExistingRecord = (id, obj) => {
+  return{
+    type: 'REMOVE_RECORD',
+    payload: id,
+    data: obj
+  }
+}
 
 // CURRENT RECORD ACTIONS
 
@@ -83,3 +90,24 @@ export const editRecord = () => {
     type: 'EDIT_CURRENT_RECORD'
   }
 }
+
+//EDITOR ACTION
+
+export const showEditor = () => {
+  return {
+    type: 'SHOW_EDITOR'
+  }
+}
+export const hideEditor = () => {
+  return {
+    type: 'HIDE_EDITOR'
+  }
+}
+
+// VARIABLE ACTION
+  export const updateIndex = (nr) => {
+    return {
+      type: 'UPDATE_INDEX',
+      payload: nr
+    }
+  }

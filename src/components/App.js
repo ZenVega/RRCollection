@@ -1,7 +1,6 @@
 //EDITOR WIRD 2X GEMOUNTED
-// Edit record löscht nicht die alte platte
-
-
+// Add covers
+// Add database
 
 import React, { useState} from 'react';
 import Searchbar from './SearchBar';
@@ -12,83 +11,32 @@ import Discogs from './util/Discogs';
 import './App.css';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist } from '../actions';
-
+import { changeArtist, changeLabel, changeSize, changeTitle, changeYear , showEditor} from '../actions';
 
 
 function App() {
-
+  
+  const dispatch = useDispatch();
   const records = useSelector(state => state.collection.records)
   const labels = useSelector(state => state.collection.labels)
   const artists = useSelector(state => state.collection.artists)
-  const dispatch = useDispatch();
-
-/*   const version = useSelector(state => state.add); */
+  const hidden = useSelector(state => state.editor);
 
   const [search, setSearch] = useState([]);
   const [type, setType] = useState("release_title");
-  const [hidden, setHidden] = useState({display: 'none'});
-
-  
-
-  const handleSearch = (term, type) => {
-    Discogs.search(term, type).then(response => setSearch(response.results));
-  }
 
   const sortBy = (interest) => {
       setType(interest)
   }
 
-  const addRecord = (artist, title, year, label, size) => {
-
-    let artistID;
-    let artistObj = artists.find(inListArtist => inListArtist.name === artist);
-    if(artistObj){
-      artistID = artistObj.artistID;
-    }
-
-    if(!artistID){
-      artistID = Math.floor(Math.random()*10*1000);
-
-      const artistToAdd = {
-        name: artist,
-        artistID: artistID
-      };
-      dispatch(addNewArtist(artistToAdd))
-    }
-
-
-    let labelID;
-    let labelObj = labels.find(inListLabel => inListLabel.name === label);
-    if(labelObj){
-      labelID = labelObj.labelID;
-    }
-
-    if(!labelID){
-      labelID = Math.floor(Math.random()*10*1000);
-
-      const labelToAdd = {
-        name: label,
-        labelID: labelID
-      };
-      dispatch(addNewLabel(labelToAdd))
-    }
-
-
-    const recordToAdd = {
-      artistID,
-      title,
-      year,
-      size,
-      labelID
-    };
-
-    dispatch(addNewRecord(recordToAdd));
+  const handleSearch = (term, type) => {
+    Discogs.search(term, type).then(response => setSearch(response.results));
   }
 
 
-  const showEditor = (index) => {
-    if(index){
+  const displayEditor = (index) => {
+    console.log('editor')
+    if(index !== undefined){
       dispatch(changeTitle(records[index].title));
       dispatch(changeYear(records[index].year));
       dispatch(changeSize(records[index].size));
@@ -101,7 +49,7 @@ function App() {
       dispatch(changeArtist(''));
       dispatch(changeLabel(''));
     }
-   setHidden({ display: "flex" });
+   dispatch(showEditor());
   }
 
 
@@ -110,23 +58,16 @@ function App() {
       <Searchbar 
         searchFor={type}
         onSearch={handleSearch}
-        showEditor={showEditor}
-        />
+        showEditor={displayEditor}/>
       <Editor
-        style={hidden}
-        setHidden={setHidden}
-        onAdd={addRecord} 
-      />
+        style={hidden}/>
       <SearchResults 
-        isHidden={hidden} 
         results={search} 
-        onAdd={addRecord}
         sort={sortBy}/>
       <Collection 
-        showEditor={showEditor}
+        showEditor={displayEditor}
         labels={labels}
-        artists={artists}
-        records={records}/>
+        artists={artists}/>
     </div>
   );
 }
