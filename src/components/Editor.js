@@ -1,10 +1,12 @@
 /* eslint-disable default-case */
 import React from 'react';
 import Autofill from './Autofill';
+import PicSelector from './PicSelector';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist , hideEditor } from '../actions';
 
-function Editor({ style }){
+
+function Editor(){
 
   const dispatch = useDispatch();
 
@@ -17,7 +19,10 @@ function Editor({ style }){
   const label = useSelector(state => state.record.label);
   const year = useSelector(state => state.record.year);
   const size = useSelector(state => state.record.size);
+  const cover = useSelector(state => state.record.cover_image);
+
   
+  const hidden = useSelector(state => state.editor);
   const index = useSelector(state => state.variables.indexOfCurrentRecord);
   const version = useSelector(state => state.add);
   
@@ -94,7 +99,8 @@ function Editor({ style }){
       title,
       year,
       size,
-      labelID
+      labelID,
+      cover_image: cover
     };
     dispatch(addNewRecord(recordToAdd));
     dispatch(hideEditor());
@@ -105,71 +111,73 @@ function Editor({ style }){
   return(
     <div>
       <form className="Editor"
-            style={style}
-            onSubmit={e=>addItem(e)}>
-        <h2> {version + ' record'}</h2>
-        <div className="inputWrapper">
-          <input 
-            type="text"
-            name="addTitle"
-            value={title}
-            onChange={e => handleChange(e)}
-            placeholder="Title"/>  
-          <Autofill
-            className="Autofill"
-            term={title}
-            array={recordNames} 
-            setTerm={changeTitle}/>
-        </div>
-        <div className="inputWrapper">
-          <input 
-            type="text"
-            name="addArtist"
-            value={artist}
-            onChange={e => handleChange(e)}
-            placeholder="Artist"/> 
-             <Autofill
-             className="Autofill"
-             term={artist}
-             array={artistNames} 
-             setTerm={changeArtist}/>
+            style={hidden}>
+        <div className="oneBlock">
+          <h2> {version + ' record'}</h2>
+          <div className="inputWrapper">
+            <input 
+              type="text"
+              name="addTitle"
+              value={title}
+              onChange={e => handleChange(e)}
+              placeholder="Title"/>  
+            <Autofill
+              className="Autofill"
+              term={title}
+              array={recordNames} 
+              setTerm={changeTitle}/>
           </div>
-        <div className="inputWrapper">
-          <input 
-            type="number"
-            name="addYear"
-            value={year}
-            onChange={e => handleChange(e)}
-            placeholder="Year"/> 
+          <div className="inputWrapper">
+            <input 
+              type="text"
+              name="addArtist"
+              value={artist}
+              onChange={e => handleChange(e)}
+              placeholder="Artist"/> 
+              <Autofill
+              className="Autofill"
+              term={artist}
+              array={artistNames} 
+              setTerm={changeArtist}/>
+            </div>
+          <div className="inputWrapper">
+            <input 
+              type="number"
+              name="addYear"
+              value={year}
+              onChange={e => handleChange(e)}
+              placeholder="Year"/> 
+            </div>
+          <div className="inputWrapper">
+            <input 
+              type="text"
+              name="addLabel"
+              value={label}
+              onChange={e => handleChange(e)}
+              placeholder="Label"/> 
+            <Autofill
+              className="Autofill"
+              term={label}
+              array={labelNames} 
+              setTerm={changeLabel}/>
           </div>
-        <div className="inputWrapper">
-          <input 
-            type="text"
-            name="addLabel"
-            value={label}
-            onChange={e => handleChange(e)}
-            placeholder="Label"/> 
-          <Autofill
-            className="Autofill"
-            term={label}
-            array={labelNames} 
-            setTerm={changeLabel}/>
+          <div className="inputWrapper">
+            <select 
+              name="addSize" 
+              value={size}
+              onChange={e => handleChange(e)}>
+              <option value="12">12"</option>
+              <option value="10">10"</option>
+              <option value="7">7"</option>
+            </select>
+          </div>
         </div>
-        <div className="inputWrapper">
-          <select 
-            name="addSize" 
-            value={size}
-            onChange={e => handleChange(e)}>
-            <option value="12">12"</option>
-            <option value="10">10"</option>
-            <option value="7">7"</option>
-          </select>
-        </div>
-        <div className="inputWrapper">
-  <button 
-  onClick={e => addItem(e)}
-  type="submit" >{version}</button>
-  <button onClick={() => dispatch(hideEditor())}>✖︎</button>
+        <PicSelector />
+        <div className="inputWrapper oneLine">
+          <button 
+          onClick={e => addItem(e)}
+          type="submit" >{version}</button>
+          <button onClick={() => dispatch(hideEditor())}>✖︎</button>
         </div>
       </form>
     </div>

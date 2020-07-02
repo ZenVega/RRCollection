@@ -1,5 +1,6 @@
 const initialState = {
-  indexOfCurrentRecord: ''
+  indexOfCurrentRecord: '',
+  imageArray: []
 }
 export const variableReducer = (state = initialState, action) => {
   switch(action.type){
@@ -7,6 +8,10 @@ export const variableReducer = (state = initialState, action) => {
       return {
         ...state,
         indexOfCurrentRecord: action.payload
+      }
+    case 'UPDATE_IMAGE_ARRAY':
+      return {
+        imageArray: action.payload
       }
     default:
       return state

@@ -7,46 +7,6 @@
   margin: 10px;
 }
 
-/* all about the Editor */
-
-.Editor {
-  display: none;
-  position:fixed;
-  background-color: rgb(255, 255, 255);
-  padding: 10px;
-  margin: 15vh;
-  border: #885d73 solid 2px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  z-index: 4;
-}
-
-.inputWrapper {
-  flex-wrap: wrap;  
-  height: 25px;
-  padding: 5px;
-}
-
-.suggestion{
-  position:relative;
-  opacity:0;
-  font-size: 12px;
-  z-index: 5;
-  padding: 5px;
-  background-color: #ceebe7;
-  margin: 0;
-}
-
-.inputWrapper input:focus ~
-.suggestion {
-  opacity:1;
-}
-
-.suggestion:hover {
-  font-weight: bold;
-  cursor: pointer;
-}
 
 .Collection{
   display: flex;
@@ -84,7 +44,7 @@
   height: 300px;
   width: 300px;
   overflow: hidden;
-  transition: all ease 0.2s;
+  transition: all ease 0.15s;
   z-index: 1;
 }
 
@@ -92,14 +52,115 @@
 .infoWrapper{
   z-index:1;
   opacity:1;
-  }
+}
 
 .infoWrapper{
-position: relative;
-top: -300px;
-opacity:0;
-transition: all ease 0.2s;
+  position: relative;
+  top: -300px;
+  opacity:0;
+  transition: all ease 0.2s;
+}
+
+/*  EDITOR  */
+
+.Editor {
+  display: none;
+  position:fixed;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 600px;
+  border: #885d73 solid 2px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+  overflow: scroll;
+}
+
+.oneLine{
+width: 100%;
+}
+.oneBlock{
+  width: 200px;
+}
+
+.inputWrapper {
+  flex-wrap: wrap;  
+  height: 25px;
+  padding: 5px;
+}
+
+.suggestion{
+  position:relative;
+  opacity:0;
+  font-size: 12px;
+  z-index: 5;
+  padding: 5px;
+  background-color: #ceebe7;
+  margin: 0;
+}
+
+.inputWrapper input:focus ~
+.suggestion {
+  opacity:1;
+}
+
+.suggestion:hover {
+  font-weight: bold;
+  cursor: pointer;
 }
 
 
+.imgBox{
+  display: block;
+  position: relative;
+  height: 300px;
+  width: 300px;
+  align-items: center;
+  text-align: center;
+}
 
+.imgBox button{
+  position: relative;
+  top: 5px;
+  z-index:2;
+}
+
+#findBtn{
+  top:40%;
+  justify-self: center; 
+}
+
+.imageSwitches{
+  opacity: 1;
+}
+
+#prevBtn{
+  float: left;
+  left: 5px;
+}
+#nextBtn{
+  float: right;
+  right: 5px;
+}
+#imageGetter{
+  position: relative;
+  z-index: 3;
+  top: 46%;
+}
+#imageGetterBtn{
+  top: 46%;
+}
+
+.previewImage {
+  opacity: 0.5;
+  left:0;
+  position:absolute;
+  height: 300px;
+  width: 300px;
+  overflow: hidden;
+  z-index: 1;
+}

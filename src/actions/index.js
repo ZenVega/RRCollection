@@ -64,6 +64,13 @@ export const changeSize = term => {
     payload: term
   }
 }
+export const changeImage = term => {
+  console.log(term)
+  return{
+    type: 'CHANGE_IMAGE',
+    payload: term
+  }
+}
 
 // SORTBY ACTIONS
 
@@ -109,5 +116,11 @@ export const hideEditor = () => {
     return {
       type: 'UPDATE_INDEX',
       payload: nr
+    }
+  }
+  export const updateImageArray = (arr) => {
+    return {
+      type: 'UPDATE_IMAGE_ARRAY',
+      payload: arr
     }
   }

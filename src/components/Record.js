@@ -1,14 +1,18 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import {removeRecord, editRecord, updateIndex} from '../actions';
+import { useSelector, useDispatch } from 'react-redux';
+import {removeRecord, editRecord, updateIndex, showEditor, changeArtist, changeLabel, changeSize, changeTitle, changeYear, changeImage} from '../actions';
 
 
 
-function Record ({title, artist, year, label, size, index, img, showEditor}) {
+function Record ({title, artist, year, label, size, index, img}) {
 
   let dispatch =  useDispatch();
   let style = {};
   let istyle ={};
+
+  const records = useSelector(state => state.collection.records);
+  const labels = useSelector(state => state.collection.labels);
+  const artists = useSelector(state => state.collection.artists);
   
   if(img === "https://img.discogs.com/4e860780db672a6b0038e39cd4613557f36e7df8/images/spacer.gif"){
     img = './norecord.png';
@@ -22,9 +26,17 @@ function Record ({title, artist, year, label, size, index, img, showEditor}) {
   }
 
   const openEditor = () => {
+
+    dispatch(changeTitle(records[index].title));
+    dispatch(changeYear(records[index].year));
+    dispatch(changeSize(records[index].size));
+    dispatch(changeArtist(artists.filter(artist => artist.artistID === records[index].artistID)[0].name));
+    dispatch(changeLabel(labels.filter(label => label.labelID === records[index].labelID)[0].name));
+    dispatch(changeImage(records[index].cover_image));
+
     dispatch(editRecord());
     dispatch(updateIndex(index))
-    showEditor(index);
+    dispatch(showEditor());
   }
 
   return(

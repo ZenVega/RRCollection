@@ -62,7 +62,7 @@ function Collection (){
         year={record.year}
         label={displayLabel(record.labelID)}
         size={record.size}
-        img={record.cover_img}
+        img={record.cover_image}
         />
     ))
   }

@@ -5,7 +5,8 @@ export const initialCollectionState = {
       artistID: 1,
       labelID: 3,
       year: 2005,
-      size: 12
+      size: 12,
+      cover_image: 'https://img.discogs.com/ozpNGs24Lgfj4gCTt74NZfcX1Po=/fit-in/600x590/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-1690692-1506971761-7920.jpeg.jpg'
     },
     {
       title:"Demo",
@@ -13,21 +14,23 @@ export const initialCollectionState = {
       labelID: 1,
       year: 2016,
       size: 12,
-      cover_img: 'https://f4.bcbits.com/img/a1419618004_10.jpg'
+      cover_image: 'https://f4.bcbits.com/img/a1419618004_10.jpg'
     },
     {
       title:"Chocolate & Cheese",
       artistID: 1,
       labelID: 3,
       year: 2000,
-      size: 12
+      size: 12,
+      cover_image: './norecord.png'
     },
     {
       title:"onyx",
       artistID: 3,
       labelID: 2,
       year: 2019,
-      size: 12
+      size: 12,
+      cover_image: 'https://img.discogs.com/cf9qM3urGRungckDePkHhyR8fu0=/fit-in/600x591/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-14513163-1576077255-1932.jpeg.jpg'
     },
   ],
   artists: [
@@ -66,5 +69,6 @@ export const initialRecordState = {
   year: '',
   label: '',
   artist: '',
-  size: '12'
+  size: '12',
+  cover_image: './norecord.png'
 }
