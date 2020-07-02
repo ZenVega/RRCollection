@@ -8,6 +8,7 @@ import Editor from './Editor';
 import Collection from './Collection';
 import SearchResults from './SearchResults';
 import Discogs from './util/Discogs';
+import Covers from './util/ImageSearch'
 import './App.css';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -23,7 +24,7 @@ function App() {
   const hidden = useSelector(state => state.editor);
 
   const [search, setSearch] = useState([]);
-  const [type, setType] = useState("release_title");
+  const [type, setType] = useState("master");
 
   const sortBy = (interest) => {
       setType(interest)
@@ -33,6 +34,7 @@ function App() {
     Discogs.search(term, type).then(response => setSearch(response.results));
   }
 
+ /*  Covers.search('vug+onyx+cover'); */
 
   const displayEditor = (index) => {
     console.log('editor')

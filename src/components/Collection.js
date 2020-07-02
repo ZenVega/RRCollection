@@ -61,7 +61,9 @@ function Collection (){
         title={record.title}
         year={record.year}
         label={displayLabel(record.labelID)}
-        size={record.size}/>
+        size={record.size}
+        img={record.cover_img}
+        />
     ))
   }
 

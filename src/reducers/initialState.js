@@ -8,11 +8,12 @@ export const initialCollectionState = {
       size: 12
     },
     {
-      title:"Selftitled",
+      title:"Demo",
       artistID: 2,
       labelID: 1,
       year: 2016,
-      size: 12
+      size: 12,
+      cover_img: 'https://f4.bcbits.com/img/a1419618004_10.jpg'
     },
     {
       title:"Chocolate & Cheese",
