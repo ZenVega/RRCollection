@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import Discogs from './util/Discogs';
 import {useSelector, useDispatch} from 'react-redux';
-import { changeImage, updateImageArray } from '../actions';
+import { updateImageArray, changeImage } from '../actions';
 
-let counter = 0;
-
+// WRONG PICTURE GETS UPDATED
+// BUTTONS DON'T DISAPPER APPEAR YET
+// URL UPDATE AIN'T WORKING YET
+// SATZZEICHEN IN DER BILDERSUCHE SIND PROBLEMATISCH
 
 function PicSelector () {
   const dispatch = useDispatch()
@@ -13,9 +15,19 @@ function PicSelector () {
 
   const imageArray = useSelector(state => state.variables.imageArray);
   const [counter, setCounter] = useState(0);
+  const [style,setStyle] = useState(
+    {
+      findBtn: 'display: block',
+      urlInput: 'display: block',
+      acceptBtn: 'display: none',
+      preNxt : 'display: none'
+
+    }
+  );
 
   const imageSwap = (e, plus) => {
     e.preventDefault();
+
     if(plus){
         if(counter === imageArray.length -1){
           setCounter(0);
@@ -29,6 +41,8 @@ function PicSelector () {
       }else {
       setCounter(counter - 1);
       }
+
+    dispatch(changeImage(imageArray[counter]))
     console.log(counter);
     console.log(imageArray)
     }
@@ -36,13 +50,20 @@ function PicSelector () {
 
   const findImage = e => {
     e.preventDefault();
+    setCounter(0);
 
     let titleQuery = title.replace(/ /g, '+');
     let artistQuery = artist.replace(/ /g, '+');
     let term = `${titleQuery}+${artistQuery}`;
     
-    Discogs.search(term).then(res =>  res.results.map(result => result.cover_image)).then(res => res.filter(url => url !== "https://img.discogs.com/82ab9e449b349e00ce86eb994af66f5b3d1b5bc2/images/spacer.gif")).then(res => dispatch(updateImageArray(res)))
+    Discogs.search(term)
+    .then(res =>  res.results.map(result => result.cover_image))
+    .then(res => res.filter(url => url.indexOf('spacer.gif') === -1))
+    .then(res => dispatch(updateImageArray(res)))
+    .then(res => dispatch(changeImage(res.payload[0])))
+
   }
+
 
   return(
     <div className="imgBox oneLine">

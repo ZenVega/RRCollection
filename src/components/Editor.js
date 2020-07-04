@@ -3,7 +3,7 @@ import React from 'react';
 import Autofill from './Autofill';
 import PicSelector from './PicSelector';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist , hideEditor } from '../actions';
+import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, changeImage, addNewArtist , hideEditor } from '../actions';
 
 
 function Editor(){
@@ -20,7 +20,6 @@ function Editor(){
   const year = useSelector(state => state.record.year);
   const size = useSelector(state => state.record.size);
   const cover = useSelector(state => state.record.cover_image);
-
   
   const hidden = useSelector(state => state.editor);
   const index = useSelector(state => state.variables.indexOfCurrentRecord);
@@ -56,6 +55,7 @@ function Editor(){
   const addItem = e => {
     e.preventDefault();
     console.log(index);
+
 
     if(index !== undefined){
       console.log(records.index)
