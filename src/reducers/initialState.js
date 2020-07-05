@@ -17,10 +17,10 @@ export const initialCollectionState = {
       cover_image: 'https://f4.bcbits.com/img/a1419618004_10.jpg'
     },
     {
-      title:"Chocolate & Cheese",
-      artistID: 1,
-      labelID: 3,
-      year: 2000,
+      title:"Lachleute Nettmenschen",
+      artistID: 4,
+      labelID: 4,
+      year: 1992,
       size: 12,
       cover_image: './norecord.png'
     },
@@ -41,6 +41,10 @@ export const initialCollectionState = {
     {
       name: "AUS",
       artistID: 2
+    },  
+    {
+      name: "S.Y.P.H.",
+      artistID: 4
     },
     {
       name: "VUG",
@@ -58,6 +62,10 @@ export const initialCollectionState = {
     {
       name: "weenRecs",
       labelID: 3
+    },
+    {
+      name: "supi deutschpunk",
+      labelID: 4
     }
 
   ],

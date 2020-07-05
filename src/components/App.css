@@ -3,10 +3,35 @@
   justify-content: center;
 }
 
-.Searchbar{
+/* NAV_BAR */
+
+.Nav{
   margin: 10px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.Nav >div
+{
+flex-wrap: wrap;
+margin: 10px;
 }
 
+.sortBy{
+  display: block;
+}
+
+label{
+  font-size: 12px;
+}
+.navBtn{
+  width: 120px;
+}
+
+.active{
+  background-color: #ceebe7 ;
+}
+
+/* COLLECTION and SEARCH_RESULTS */
 
 .Collection{
   display: flex;
@@ -19,6 +44,9 @@
   justify-content: space-around;
   flex-wrap: wrap;
 }
+
+
+/* RECORD */
 
 .Record{
   border: #5f9ea0 solid 2px;
@@ -130,6 +158,9 @@ width: 100%;
 }
 
 #findBtn{
+  position:absolute;
+  transform: translate(-50%, 0);
+  left: 50%;
   top:40%;
   justify-self: center; 
 }
@@ -146,13 +177,18 @@ width: 100%;
   float: right;
   right: 5px;
 }
-#imageGetter{
-  position: relative;
+
+#imageGetter {
+  position: absolute;
   z-index: 3;
-  top: 46%;
+  left: 15%;
 }
-#imageGetterBtn{
-  top: 46%;
+#imageGetterBtn {
+  position: absolute;
+  z-index:3;
+right: 15%;
+margin-top: 2.5px;
+  
 }
 
 .previewImage {

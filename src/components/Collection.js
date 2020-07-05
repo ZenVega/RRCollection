@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 
 
-function Collection (){
+function Collection () {
 
   let artists = useSelector(state => state.collection.artists);
   let labels = useSelector(state => state.collection.labels);

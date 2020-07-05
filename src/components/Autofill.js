@@ -28,6 +28,7 @@ function Autofill ({term, array, setTerm}) {
 
   return(
     <Fragment >
+
       {returnSuggestions(term, array, setTerm, dispatch)}
     </Fragment>
   )

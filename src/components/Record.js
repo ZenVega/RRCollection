@@ -1,20 +1,25 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {removeRecord, editRecord, updateIndex, showEditor, changeArtist, changeLabel, changeSize, changeTitle, changeYear, changeImage} from '../actions';
+import {removeRecord, updateImageArray, addRecord, editRecord, updateIndex, showEditor, changeArtist, changeLabel, changeSize, changeTitle, changeYear, changeImage} from '../actions';
 
 
 
-function Record ({title, artist, year, label, size, index, img}) {
+function Record ({title, artist, year, label, size, index, img, hiddenWhenSearchresult}) {
 
   let dispatch =  useDispatch();
   let style = {};
   let istyle ={};
 
+  let addButton = '✎';
+    if(hiddenWhenSearchresult){
+      addButton = 'add';
+    }
+
   const records = useSelector(state => state.collection.records);
   const labels = useSelector(state => state.collection.labels);
   const artists = useSelector(state => state.collection.artists);
   
-  if(img === "https://img.discogs.com/4e860780db672a6b0038e39cd4613557f36e7df8/images/spacer.gif"){
+  if(img.indexOf('spacer.gif') !== -1){
     img = './norecord.png';
     style = { zIndex: 2,
               opacity: 1}
@@ -25,17 +30,38 @@ function Record ({title, artist, year, label, size, index, img}) {
     opacity: 1}
   }
 
+
   const openEditor = () => {
 
-    dispatch(changeTitle(records[index].title));
-    dispatch(changeYear(records[index].year));
-    dispatch(changeSize(records[index].size));
-    dispatch(changeArtist(artists.filter(artist => artist.artistID === records[index].artistID)[0].name));
-    dispatch(changeLabel(labels.filter(label => label.labelID === records[index].labelID)[0].name));
-    dispatch(changeImage(records[index].cover_image));
+    if(hiddenWhenSearchresult){
+      openAdder();
+    } else {
 
-    dispatch(editRecord());
-    dispatch(updateIndex(index))
+      dispatch(changeTitle(records[index].title));
+      dispatch(changeYear(records[index].year));
+      dispatch(changeSize(records[index].size));
+      dispatch(changeArtist(artists.filter(artist => artist.artistID === records[index].artistID)[0].name));
+      dispatch(changeLabel(labels.filter(label => label.labelID === records[index].labelID)[0].name));
+      dispatch(changeImage(records[index].cover_image));
+  
+      dispatch(editRecord());
+      dispatch(updateIndex(index))
+      dispatch(updateImageArray([records[index].cover_image]))
+      dispatch(showEditor());
+    }
+
+  }
+
+  const openAdder = () => {
+    dispatch(changeTitle(title));
+    dispatch(changeYear(year));
+    dispatch(changeSize(size));
+    dispatch(changeArtist(artist));
+    dispatch(changeLabel(label));
+    dispatch(changeImage(img));
+
+    dispatch(addRecord());
+    dispatch(updateImageArray([img]))
     dispatch(showEditor());
   }
 
@@ -48,8 +74,10 @@ function Record ({title, artist, year, label, size, index, img}) {
       <p>{year}</p>
       <p>{label}</p>
       <p>{size}"</p>
-      <button onClick={() => dispatch(removeRecord(index))}>✖︎</button>
-      <button onClick={() => openEditor()}>✎</button>
+      <button 
+        style={hiddenWhenSearchresult}
+        onClick={() => dispatch(removeRecord(index))}>✖︎</button>
+      <button onClick={() => openEditor()}>{addButton}</button>
     </div>
       
     </div>

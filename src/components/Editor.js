@@ -3,7 +3,7 @@ import React from 'react';
 import Autofill from './Autofill';
 import PicSelector from './PicSelector';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, changeImage, addNewArtist , hideEditor } from '../actions';
+import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist , hideEditor } from '../actions';
 
 
 function Editor(){
@@ -22,15 +22,19 @@ function Editor(){
   const cover = useSelector(state => state.record.cover_image);
   
   const hidden = useSelector(state => state.editor);
-  const index = useSelector(state => state.variables.indexOfCurrentRecord);
+  const index = useSelector(state => state.currentIndex);
   const version = useSelector(state => state.add);
   
   const labelNames = labels.map(label => label.name);
   const artistNames = artists.map(artist => artist.name);
   const recordNames = records.map(record => record.title);
+
+
   
 
-  const handleChange = (e) => {
+  const handleChange = e => {
+
+    e.preventDefault();
     
     switch(e.target.name){
       case "addTitle":
@@ -53,12 +57,19 @@ function Editor(){
 
 
   const addItem = e => {
+
     e.preventDefault();
+
+    if(!title || !artist){
+      alert('Title or Artist Missing');
+      return;
+    }
+
+
     console.log(index);
 
-
     if(index !== undefined){
-      console.log(records.index)
+      console.log(index);
       dispatch(removeRecord(index));
     }
 

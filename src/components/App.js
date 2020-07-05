@@ -1,64 +1,43 @@
 //EDITOR WIRD 2X GEMOUNTED
-// Add covers
+//deactivate autofill from browser
+//komplett auf redux umstellen bzw state/let/selector mischen?
+
+
+
+// Show Artists
+// Show Labels
 // Add database
 
 import React, { useState} from 'react';
-import Searchbar from './SearchBar';
+import Nav from './Nav';
 import Editor from './Editor';
 import Collection from './Collection';
 import SearchResults from './SearchResults';
 import Discogs from './util/Discogs';
-import Covers from './util/ImageSearch'
 import './App.css';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { changeArtist, changeLabel, changeSize, changeTitle, changeYear , showEditor} from '../actions';
 
 
 function App() {
   
-  const dispatch = useDispatch();
-  const records = useSelector(state => state.collection.records);
-  const labels = useSelector(state => state.collection.labels);
-  const artists = useSelector(state => state.collection.artists);
-
   const [search, setSearch] = useState([]);
 
   const handleSearch = (term) => {
-    Discogs.search(term).then(response => setSearch(response.results));
-  }
-
- /*  Covers.search('vug+onyx+cover'); */
-
-  const displayEditor = (index) => {
-    console.log('editor')
-    if(index !== undefined){
-      
-    } else {
-      dispatch(changeTitle(''));
-      dispatch(changeYear(''));
-      dispatch(changeSize('12'));
-      dispatch(changeArtist(''));
-      dispatch(changeLabel(''));
-    }
-   dispatch(showEditor());
+    Discogs.search(term)
+    .then(response => setSearch(response.results));
   }
 
 
   return (
     <div className="App">
-      <Searchbar 
-        onSearch={handleSearch}
-        showEditor={displayEditor}/>
+      <Nav onSearch={handleSearch}/>
       <Editor/>
       <SearchResults 
         results={search} />
-      <Collection 
-        showEditor={displayEditor}
-        labels={labels}
-        artists={artists}/>
+      <Collection />
     </div>
   );
 }
+
 
 export default App;

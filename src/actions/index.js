@@ -118,9 +118,17 @@ export const hideEditor = () => {
       payload: nr
     }
   }
+
   export const updateImageArray = (arr) => {
     return {
       type: 'UPDATE_IMAGE_ARRAY',
       payload: arr
+    }
+  }
+  export const updatePicSelectorStyle = (key, obj) => {
+    return {
+      type: 'UPDATE_PIC_SELECTOR_STYLE',
+      payload: obj,
+      key
     }
   }
