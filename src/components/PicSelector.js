@@ -75,7 +75,8 @@ function PicSelector () {
       dispatch(updatePicSelectorStyle('preNxt', {display: 'none'}))
     }
 
-  return(
+
+  return (
     <div className="imgBox oneLine">
       <button 
         style={style.findBtn}

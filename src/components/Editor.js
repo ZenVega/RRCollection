@@ -28,8 +28,6 @@ function Editor(){
   const labelNames = labels.map(label => label.name);
   const artistNames = artists.map(artist => artist.name);
   const recordNames = records.map(record => record.title);
-
-
   
 
   const handleChange = e => {
@@ -117,12 +115,9 @@ function Editor(){
     dispatch(hideEditor());
   }
 
-
-
-  return(
+  return (
     <div>
-      <form className="Editor"
-            style={hidden}>
+      <form className="Editor">
         <div className="oneBlock">
           <h2> {version + ' record'}</h2>
           <div className="inputWrapper">
@@ -135,8 +130,9 @@ function Editor(){
             <Autofill
               className="Autofill"
               term={title}
-              array={recordNames} 
-              setTerm={changeTitle}/>
+              list={recordNames} 
+              onClickSuggestion={suggestion => dispatch(changeTitle(suggestion)) }
+            />
           </div>
           <div className="inputWrapper">
             <input 
@@ -148,7 +144,7 @@ function Editor(){
               <Autofill
               className="Autofill"
               term={artist}
-              array={artistNames} 
+              list={artistNames} 
               setTerm={changeArtist}/>
             </div>
           <div className="inputWrapper">
@@ -169,7 +165,7 @@ function Editor(){
             <Autofill
               className="Autofill"
               term={label}
-              array={labelNames} 
+              list={labelNames} 
               setTerm={changeLabel}/>
           </div>
           <div className="inputWrapper">

@@ -1,6 +1,5 @@
 import {initialCollectionState} from './initialState';
 
-
  const collectionReducer = ( state = initialCollectionState, action) =>{
   switch(action.type){
     case 'ADD_RECORD':
@@ -29,7 +28,7 @@ import {initialCollectionState} from './initialState';
         records: state.records.splice(action.payload)
       }
     default:
-      return state; 
+      return state;
   }
 };
 

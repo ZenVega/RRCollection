@@ -12,7 +12,29 @@ const allReducers = combineReducers({
   currentIndex: indexReducer,
   imageArray: updateImageReducer,
   editor: showEditorReducer,
-  picSelectorStyle: updatePicSelectorStyle
+  picSelectorStyle: updatePicSelectorStyle,
 });
 
 export default allReducers;
+
+// const state = {
+//   collections: {
+//     records: [],
+//     artists: [],
+//     labels: []
+//   },
+//   dashboard: {
+//     sortBy: "artist",
+//     search: "asdhjasd",
+//     activeView: "collection"
+//   },
+//   editor: {
+//     isAdd: false;
+//     show: false,
+//     record: {
+//       index: 2,
+//       title: "asd",
+//       year: 2018
+//     }
+//   },
+// }

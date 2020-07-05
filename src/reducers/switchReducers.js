@@ -20,14 +20,13 @@ export const addReducer =(state = 'add', action) => {
   }
 }
 
-export const showEditorReducer = (state = {display: "none" }, action) => {
+export const showEditorReducer = (state = false, action) => {
   switch (action.type){
     case 'SHOW_EDITOR':
-      return state = {display: "flex" }
+      return true
     case 'HIDE_EDITOR':
-      return state = {display: "none" }
+      return false
     default: 
       return state
   }
 }
-

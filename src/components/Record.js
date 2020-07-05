@@ -69,17 +69,16 @@ function Record ({title, artist, year, label, size, index, img, hiddenWhenSearch
     <div className="Record" >
       <img className="backImage" src={img} alt="album_cover" style={istyle} />
       <div className="infoWrapper" style={style}>
-      <h2>{title}</h2>
-      <h2>{artist}</h2>
-      <p>{year}</p>
-      <p>{label}</p>
-      <p>{size}"</p>
-      <button 
-        style={hiddenWhenSearchresult}
-        onClick={() => dispatch(removeRecord(index))}>✖︎</button>
-      <button onClick={() => openEditor()}>{addButton}</button>
-    </div>
-      
+        <h2>{title}</h2>
+        <h2>{artist}</h2>
+        <p>{year}</p>
+        <p>{label}</p>
+        <p>{size}"</p>
+        <button 
+          style={hiddenWhenSearchresult}
+          onClick={() => dispatch(removeRecord(index))}>✖︎</button>
+        <button onClick={() => openEditor()}>{addButton}</button>
+      </div>
     </div>
   )
 }
