@@ -1,14 +1,18 @@
 import React, {Fragment, useState} from 'react';
 
-const InputPlusAutofill = ({term, placeholder, list, handleChange}) => {
-  let suggestions = list.filter(string => string.toLowerCase().indexOf(term.toLowerCase()) > -1);
-  console.log(suggestions)
+const InputPlusAutofill = ({term, placeholder, list, handleChange, fromTop}) => {
+
   const [unclicked, setUnclicked] = useState(true); 
   const [focused, setFocused] = useState(false);
+  let suggestions
+  if(term){
+    suggestions = list.filter(string => string.toLowerCase().indexOf(term.toLowerCase()) > -1);
+  }
 
   return (
     <Fragment>
       <input 
+        style={{top: fromTop + 'px'}}
         className="AutofillInput"
         type="text"
         value={term}
@@ -17,12 +21,14 @@ const InputPlusAutofill = ({term, placeholder, list, handleChange}) => {
         onBlur={() => setFocused(false)}
         placeholder={placeholder}
       />  
-      <div className="suggestionWrapper">
+      <div 
+      className="suggestionWrapper"
+      style={{top: fromTop + 25 + 'px'}}>
         { term && focused && unclicked && suggestions.map((suggestion, index) => ( 
           <p 
             key={index} 
             className="suggestion" 
-            onClick={e => {setUnclicked(false); handleChange(suggestion)  }}
+            onMouseDown={e => { handleChange(suggestion); setUnclicked(false);  }}
           >
           { suggestion }
           </p>

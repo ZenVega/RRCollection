@@ -4,6 +4,8 @@ import InputPlusAutofill from './Autofill';
 import PicSelector from './PicSelector';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist , hideEditor } from '../actions';
+const { v4: generateID } = require('uuid');
+
 
 
 function Editor(){
@@ -14,57 +16,24 @@ function Editor(){
   const artists = useSelector(state => state.collection.artists);
   const labels = useSelector(state => state.collection.labels);
   
-  const title = useSelector(state => state.record.title);
-  const artist = useSelector(state => state.record.artist);
-  const label = useSelector(state => state.record.label);
-  const year = useSelector(state => state.record.year);
-  const size = useSelector(state => state.record.size);
-  const cover = useSelector(state => state.record.cover_image);
-  
-  const hidden = useSelector(state => state.editor);
-  const index = useSelector(state => state.currentIndex);
-  const version = useSelector(state => state.add);
+  const {title, year ,label, artist, size, cover_image} = useSelector(state => state.editor.recordInProgress);
+
+  const index = useSelector(state => state.editor.currentIndex);
+  const setup = useSelector(state => state.editor.setup);
   
   const labelNames = labels.map(label => label.name);
   const artistNames = artists.map(artist => artist.name);
   const recordNames = records.map(record => record.title);
-  
 
-  const handleChange = e => {
-
-    e.preventDefault();
-    
-    switch(e.target.name){
-      case "addTitle":
-      dispatch(changeTitle(e.target.value))
-      break;
-      case "addArtist":
-      dispatch(changeArtist(e.target.value))
-      break;
-      case "addYear":
-      dispatch(changeYear(e.target.value))
-      break;
-      case "addLabel":
-      dispatch(changeLabel(e.target.value))
-      break;
-      case "addSize":
-      dispatch(changeSize(e.target.value))
-      break;
-    }
-  }
 
 
   const addItem = e => {
-
-    e.preventDefault();
 
     if(!title || !artist){
       alert('Title or Artist Missing');
       return;
     }
 
-
-    console.log(index);
 
     if(index !== undefined){
       console.log(index);
@@ -78,14 +47,13 @@ function Editor(){
     }
 
     if(!artistID){
-      artistID = Math.floor(Math.random()*10*1000);
+      artistID = generateID();
       const artistToAdd = {
         name: artist,
         artistID: artistID
       };
       dispatch(addNewArtist(artistToAdd))
     }
-
 
     let labelID;
     let labelObj = labels.find(inListLabel => inListLabel.name === label);
@@ -94,22 +62,23 @@ function Editor(){
     }
 
     if(!labelID){
-      labelID = Math.floor(Math.random()*10*1000);
+      labelID = generateID();
       const labelToAdd = {
         name: label,
         labelID: labelID
       };
       dispatch(addNewLabel(labelToAdd))
     }
-
+    const id = generateID();
 
     const recordToAdd = {
+      id,
       artistID,
       title,
       year,
       size,
       labelID,
-      cover_image: cover
+      cover_image
     };
     dispatch(addNewRecord(recordToAdd));
     dispatch(hideEditor());
@@ -118,11 +87,12 @@ function Editor(){
   return (
     <div className="Editor">
       <div className="inputBox">
-      <h2> {version + ' record'}</h2>
+      <h2 className="EditorHeader" > {setup + ' record'}</h2>
         <InputPlusAutofill
           className="inputWrapper"
           term={title}
           list={recordNames} 
+          fromTop={70}
           placeholder="Title"
           handleChange={newValue => dispatch(changeTitle(newValue))}
           />
@@ -130,6 +100,7 @@ function Editor(){
           className="inputWrapper"
           term={artist}
           list={artistNames} 
+          fromTop={100}
           placeholder="Artist"
           handleChange={newValue => dispatch(changeArtist(newValue))}
           />
@@ -138,23 +109,28 @@ function Editor(){
           type="number"
           name="addYear"
           value={year}
-          onChange={e => handleChange(e)}
+          style={{top: '160px'}}
+          onChange={e => dispatch(changeYear(e.target.value))}
           placeholder="Year"/> 
         <InputPlusAutofill
           className="inputWrapper"
-          term={label}
+          term={label? label: ''}
+          fromTop={130}
           list={labelNames} 
           placeholder="Label"
           handleChange={newValue => dispatch(changeLabel(newValue))}
           />
-        <div className="inputWrapper">
+        <div 
+          className="inputWrapper"
+          style={{top: '190px'}}>
           <select 
             name="addSize" 
             value={size}
-            onChange={e => handleChange(e)}>
-            <option value="12">12"</option>
-            <option value="10">10"</option>
-            <option value="7">7"</option>
+            
+            onChange={e => dispatch(changeSize(e.target.value))}>
+            <option value="LP">LP</option>
+            <option value="EP">EP</option>
+            <option value="Single">Single</option>
           </select>
         </div>
       </div>
@@ -162,7 +138,7 @@ function Editor(){
       <div className="footer">
         <button 
         onClick={e => addItem(e)}
-        type="submit" >{version}</button>
+        type="submit" >{setup}</button>
         <button onClick={() => dispatch(hideEditor())}>✖︎</button>
       </div>
     </div>

@@ -107,6 +107,11 @@ label{
   z-index: 4;
 }
 
+.EditorHeader{
+  position:absolute;
+  top:20px;
+}
+
 
 .Editor > .footer{
   position: absolute;
@@ -132,6 +137,10 @@ label{
 }
 
 
+.AutofillInput{
+  position:absolute;
+  width: 150px;
+}
 .suggestionWrapper{
   position: absolute;
   width: 150px;
@@ -140,14 +149,11 @@ label{
   z-index:5;
 }
 
-.inputWrapper > input{
+.inputWrapper {
+  position: absolute;
   width: 150px;
 }
 
-.AutofillInput{
-  position:relative;
-  width: 150px;
-}
 
 .suggestion{
   position:relative;

@@ -3,26 +3,16 @@ import Discogs from './util/Discogs';
 import { sortByArtist, sortByTitle } from '../actions';
 import { useDispatch } from 'react-redux';
 import { addRecord } from '../actions';
-import { changeArtist, changeLabel, changeSize, changeTitle, changeYear , showEditor} from '../actions';
+import { changeArtist, changeLabel, changeSize, changeTitle, changeYear , showEditor, updateIndex, updateSearchResults} from '../actions';
 
-const search = (e, onSearch, term) => {
-  e.preventDefault();
-  onSearch(term);
-}
 
 const changeHandler = (e, setTerm) => {
   setTerm(e.target.value);
 }
 
-const handleSearch = (e,term) => {
-  e.preventDefault();
-  Discogs.search(term)
-  .then(response => response.results);
-}
 
+const Nav = () => {
 
-
-function Nav ({onSearch}) {
   const dispatch = useDispatch();
   const [term, setTerm] = useState("I wanna know all about...");
   
@@ -31,33 +21,41 @@ function Nav ({onSearch}) {
     collection: 'navBtn active'
   });
   
+  
   const toggleToSearch = e => {
     e.preventDefault();
-      setNavBtn ({
-        searchResults: 'navBtn active',
-        collection: 'navBtn'
-        })
-
+    setNavBtn ({
+      searchResults: 'navBtn active',
+      collection: 'navBtn'
+    })
   }
   
   const toggleToCollection = e => {
     e.preventDefault();
-      setNavBtn ({
-        searchResults: 'navBtn',
-        collection: 'navBtn active'
-        })
+    setNavBtn ({
+      searchResults: 'navBtn',
+      collection: 'navBtn active'
+    })
+  }
 
+  const handleSearch = (e,term) => {
+    e.preventDefault();
+    Discogs.search(term)
+    .then(response => dispatch(updateSearchResults(response.results)));
   }
 
   const openEditor = () => {
-    console.log('open')
     dispatch(addRecord());
+    dispatch(showEditor());
+    /* console.log('open')
+    dispatch(addRecord());
+    dispatch(updateIndex(''));
     dispatch(changeTitle(''));
     dispatch(changeYear(''));
     dispatch(changeSize('12'));
     dispatch(changeArtist(''));
     dispatch(changeLabel(''));
-    dispatch(showEditor());
+    dispatch(showEditor()); */
   }
 
   return(

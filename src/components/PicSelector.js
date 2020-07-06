@@ -8,10 +8,10 @@ import { updatePicSelectorStyle, updateImageArray, changeImage } from '../action
 function PicSelector () {
   const dispatch = useDispatch()
   
-  const title = useSelector(state => state.record.title);
-  const artist = useSelector(state => state.record.artist);
-  const style = useSelector(state => state.picSelectorStyle)
-  const imageArray = useSelector(state => state.imageArray);
+  const title = useSelector(state => state.editor.recordInProgress.title);
+  const artist = useSelector(state => state.editor.recordInProgress.artist);
+  const style = useSelector(state => state.editor.picSelectorStyle)
+  const imageArray = useSelector(state => state.editor.imageSearch);
 
   const [counter, setCounter] = useState(0);
   const [URLToUpload, setURLToUpload]= useState('');

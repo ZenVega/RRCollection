@@ -9,7 +9,7 @@ function Collection () {
   let artists = useSelector(state => state.collection.artists);
   let labels = useSelector(state => state.collection.labels);
   let records = useSelector(state => state.collection.records);
-  let sortByTerm = useSelector(state => state.sortBy)
+  let sortByTerm = useSelector(state => state.dashboard.sortBy)
 
   const displayArtist = (id) => {
     let currentArtist = artists.find(artist => artist.artistID === id)

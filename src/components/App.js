@@ -20,7 +20,7 @@ import './App.css';
 function App() {
 
 
-  const showEditor = useSelector(state => state.editor);
+  const showEditor = useSelector(state => state.editor.show);
   const [search, setSearch] = useState([]);
 
   const handleSearch = (term) => {

@@ -132,3 +132,12 @@ export const hideEditor = () => {
       key
     }
   }
+  
+  // SEARCHRESULTS ACTION
+
+    export const updateSearchResults = (arrayOfObjects) => {
+      return {
+        type: 'UPDATE_SEARCH_RESULTS',
+        payload: arrayOfObjects
+      }
+    }

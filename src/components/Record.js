@@ -7,33 +7,32 @@ import {removeRecord, updateImageArray, addRecord, editRecord, updateIndex, show
 function Record ({title, artist, year, label, size, index, img, hiddenWhenSearchresult}) {
 
   let dispatch =  useDispatch();
-  let style = {};
-  let istyle ={};
-
-  let addButton = '✎';
-    if(hiddenWhenSearchresult){
-      addButton = 'add';
-    }
-
-  const records = useSelector(state => state.collection.records);
-  const labels = useSelector(state => state.collection.labels);
-  const artists = useSelector(state => state.collection.artists);
   
-  if(img.indexOf('spacer.gif') !== -1){
+  let addButton = '✎';
+  if(hiddenWhenSearchresult){
+    addButton = 'add';
+  }
+  
+  const {records, labels, artists} = useSelector(state => state.collection);
+
+
+  let style;
+  let istyle;
+  
+  if(!img || img === './norecord.png'){
     img = './norecord.png';
     style = { zIndex: 2,
               opacity: 1}
-  } else if(!img){
-    img = "";
-    istyle = {display:"none"}
-    style = { top:0,
-    opacity: 1}
+              istyle={opacity: 0.2}
   }
 
 
   const openEditor = () => {
+    dispatch(editRecord());
+    dispatch(showEditor());
+  }
 
-    if(hiddenWhenSearchresult){
+    /* if(hiddenWhenSearchresult){
       openAdder();
     } else {
 
@@ -46,13 +45,14 @@ function Record ({title, artist, year, label, size, index, img, hiddenWhenSearch
   
       dispatch(editRecord());
       dispatch(updateIndex(index))
-      dispatch(updateImageArray([records[index].cover_image]))
-      dispatch(showEditor());
-    }
+      dispatch(updateImageArray([records[index].cover_image]))} */
+    
 
-  }
 
-  const openAdder = () => {
+  /* const openAdder = () => {
+    dispatch(addRecord());
+    dispatch(showEditor());
+
     dispatch(changeTitle(title));
     dispatch(changeYear(year));
     dispatch(changeSize(size));
@@ -60,10 +60,8 @@ function Record ({title, artist, year, label, size, index, img, hiddenWhenSearch
     dispatch(changeLabel(label));
     dispatch(changeImage(img));
 
-    dispatch(addRecord());
     dispatch(updateImageArray([img]))
-    dispatch(showEditor());
-  }
+  } */
 
   return(
     <div className="Record" >
@@ -73,7 +71,7 @@ function Record ({title, artist, year, label, size, index, img, hiddenWhenSearch
         <h2>{artist}</h2>
         <p>{year}</p>
         <p>{label}</p>
-        <p>{size}"</p>
+        <p>{size}</p>
         <button 
           style={hiddenWhenSearchresult}
           onClick={() => dispatch(removeRecord(index))}>✖︎</button>

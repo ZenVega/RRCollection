@@ -1,41 +1,35 @@
 import React from 'react';
 import Record from './Record';
-
-// ADD VINYL FILTER
-
-let type = "master";
-
-const presentResults = (results) => {
-  if(!results){
-    return;
-  } else {
-    const filterArtist = result => result.type !== "artist";
-    const filterResults = result => result.type !== "results";
-   /*  const filterVinyl = result => result.format[0] === 'Vinyl'; */
-    let filtered = results.filter(filterArtist).filter(filterResults)/* .filter(filterVinyl) */;
-    console.log(filtered);
-
-    return filtered.map((record, index) => {
-      return <Record 
-        key={record.id}
-        index={index}
-        title={record.title} 
-        year={record.year}
-        label={record.label}
-        size={record.format}
-        hiddenWhenSearchresult={{display: 'none'}}
-        img={record.cover_image}/>
-    })
-  }
-}
+import {useSelector} from 'react-redux'
 
 
+function SearchResults() {
 
-function SearchResults({results, onAdd, isHidden}) {
-  return(
+  const results = useSelector(state => state.dashboard.searchResults);
+
+  const filterArtist = result => result.type !== "artist";
+  const filterResults = result => result.type !== "results";
+  const filterMedia = result => result.format;
+  const filterVinyl = result => result.format[0] === 'Vinyl';
+
+
+  let filtered = results.filter(filterArtist).filter(filterResults).filter(filterMedia).filter(filterVinyl);
+  console.log(filtered);
+
+  return results && (
     <div className="searchResults">
-      <div className="Wrapper" style={{isHidden}}>
-        {presentResults(results, type, onAdd)} 
+      <div className="Wrapper" >
+        {filtered.map((record, index) => {
+          return <Record 
+            key={record.id}
+            index={index}
+            title={record.title} 
+            year={record.year}
+            label={record.label.filter((label, index) => index<5).join(' | ')}
+            size={record.format? record.format[1] : ''}
+            hiddenWhenSearchresult={{display: 'none'}}
+            img={record.cover_image}/>
+          })} 
       </div>
     </div>
   )
