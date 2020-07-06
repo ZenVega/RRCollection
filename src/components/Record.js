@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {removeRecord, updateImageArray, addRecord, editRecord, updateIndex, showEditor, changeArtist, changeLabel, changeSize, changeTitle, changeYear, changeImage} from '../actions';
+import {removeRecord, updateImageArray, addRecord, editRecord, addID, showEditor, changeArtist, changeLabel, changeSize, changeTitle, changeYear, changeImage} from '../actions';
 
 
 
-function Record ({title, artist, year, label, size, index, img, hiddenWhenSearchresult}) {
+function Record ({id, hiddenWhenSearchresult}) {
 
   let dispatch =  useDispatch();
   
@@ -15,20 +15,34 @@ function Record ({title, artist, year, label, size, index, img, hiddenWhenSearch
   
   const {records, labels, artists} = useSelector(state => state.collection);
 
+  const record = records.filter(record => record.id === id)[0]
+  console.log(record)
 
+  let img;
   let style;
   let istyle;
   
-  if(!img || img === './norecord.png'){
-    img = './norecord.png';
+  if(!record.cover_image || record.cover_image === './norecord.png'){
+   img = './norecord.png';
     style = { zIndex: 2,
               opacity: 1}
               istyle={opacity: 0.2}
+  } else {
+    img = record.cover_image
   }
 
+  const displayArtist = () => {
+    let currentArtist = artists.find(artist => artist.artistID === record.artistID)
+      return currentArtist.name;
+  }
+
+  const displayLabel = () => {
+    let currentLabel = labels.find(label => label.labelID === record.labelID)
+      return currentLabel.name;
+  }
 
   const openEditor = () => {
-    dispatch(editRecord());
+    dispatch(editRecord(id));
     dispatch(showEditor());
   }
 
@@ -67,14 +81,14 @@ function Record ({title, artist, year, label, size, index, img, hiddenWhenSearch
     <div className="Record" >
       <img className="backImage" src={img} alt="album_cover" style={istyle} />
       <div className="infoWrapper" style={style}>
-        <h2>{title}</h2>
-        <h2>{artist}</h2>
-        <p>{year}</p>
-        <p>{label}</p>
-        <p>{size}</p>
+        <h2>{record.title}</h2>
+        <h2>{displayArtist}</h2>
+        <p>{record.year}</p>
+        <p>{displayLabel}</p>
+        <p>{record.size}</p>
         <button 
           style={hiddenWhenSearchresult}
-          onClick={() => dispatch(removeRecord(index))}>✖︎</button>
+          onClick={() => dispatch(removeRecord(id))}>✖︎</button>
         <button onClick={() => openEditor()}>{addButton}</button>
       </div>
     </div>

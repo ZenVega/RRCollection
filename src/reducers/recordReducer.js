@@ -17,6 +17,9 @@ const recordReducer = (state = initialRecordState, action) => {
     case 'CHANGE_SIZE':
       return {...state,
         size: action.payload}
+    case 'CHANGE_ID':
+      return {...state,
+        id: action.payload}
     case 'CHANGE_IMAGE':
       return {...state,
         cover_image: action.payload}

@@ -6,20 +6,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist , hideEditor } from '../actions';
 const { v4: generateID } = require('uuid');
 
-
+// ADD RECORD IN PROGRESS // SWITCH BETWEEN MODES
 
 function Editor(){
 
+  let {mode, id} = useSelector(state => state.editor.setup);
+
   const dispatch = useDispatch();
 
-  const records = useSelector(state => state.collection.records);
-  const artists = useSelector(state => state.collection.artists);
-  const labels = useSelector(state => state.collection.labels);
-  
-  const {title, year ,label, artist, size, cover_image} = useSelector(state => state.editor.recordInProgress);
+  const {records, artists, labels} = useSelector(state => state.collection);
 
-  const index = useSelector(state => state.editor.currentIndex);
-  const setup = useSelector(state => state.editor.setup);
+  const { title, year ,label, artist, size, cover_image} = useSelector(state => state.editor.recordInProgress);
+
   
   const labelNames = labels.map(label => label.name);
   const artistNames = artists.map(artist => artist.name);
@@ -27,7 +25,7 @@ function Editor(){
 
 
 
-  const addItem = e => {
+  const addItem = () => {
 
     if(!title || !artist){
       alert('Title or Artist Missing');
@@ -35,9 +33,11 @@ function Editor(){
     }
 
 
-    if(index !== undefined){
-      console.log(index);
-      dispatch(removeRecord(index));
+    if(id !== undefined){
+      console.log(id);
+      dispatch(removeRecord(id));
+    } else {
+      id = generateID();
     }
 
     let artistID;
@@ -69,7 +69,7 @@ function Editor(){
       };
       dispatch(addNewLabel(labelToAdd))
     }
-    const id = generateID();
+     
 
     const recordToAdd = {
       id,
@@ -87,7 +87,7 @@ function Editor(){
   return (
     <div className="Editor">
       <div className="inputBox">
-      <h2 className="EditorHeader" > {setup + ' record'}</h2>
+      <h2 className="EditorHeader" > {mode + ' record'}</h2>
         <InputPlusAutofill
           className="inputWrapper"
           term={title}
@@ -138,7 +138,7 @@ function Editor(){
       <div className="footer">
         <button 
         onClick={e => addItem(e)}
-        type="submit" >{setup}</button>
+        type="submit" >{mode}</button>
         <button onClick={() => dispatch(hideEditor())}>✖︎</button>
       </div>
     </div>

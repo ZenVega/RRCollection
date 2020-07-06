@@ -6,39 +6,18 @@ import { useSelector } from 'react-redux';
 
 function Collection () {
 
-  let artists = useSelector(state => state.collection.artists);
-  let labels = useSelector(state => state.collection.labels);
-  let records = useSelector(state => state.collection.records);
+  let {artists, labels, records} = useSelector(state => state.collection);
+
   let sortByTerm = useSelector(state => state.dashboard.sortBy)
-
-  const displayArtist = (id) => {
-    let currentArtist = artists.find(artist => artist.artistID === id)
-    try{
-      return currentArtist.name;
-    }catch(err){
-      console.log(err)
-    }
-  }
-
-  const displayLabel = (id) => {
-    let currentLabel = labels.find(label => label.labelID === id)
-    try{
-      return currentLabel.name;
-    }catch(err){
-      console.log(err)
-    }
-  }
-
-  const sortBy = (term) => {
 
     let newOrder = records.sort((a, b) => {
       let objA;
       let objB;
 
-      if(term === 'title'){
+      if(sortByTerm === 'title'){
         objA = a.title.toUpperCase();
         objB = b.title.toUpperCase();  
-      } else if(term === 'artist'){
+      } else if(sortByTerm === 'artist'){
         objA = artists.find(artist => artist.artistID === a.artistID).name.toUpperCase();
         objB = artists.find(artist => artist.artistID === b.artistID).name.toUpperCase();
       }
@@ -53,24 +32,13 @@ function Collection () {
     });
 
 
-    return newOrder.map((record, index) => (
-      <Record 
-        key={index}
-        index={index}
-        artist={displayArtist(record.artistID)}
-        title={record.title}
-        year={record.year}
-        label={displayLabel(record.labelID)}
-        size={record.size}
-        img={record.cover_image}
-        />
-    ))
-  }
-
  
   return(
     <div className="Collection">
-      {sortBy(sortByTerm)}
+      {newOrder.map(record => (
+      <Record id={record.id}
+        />
+    ))}
     </div>
   )
 }

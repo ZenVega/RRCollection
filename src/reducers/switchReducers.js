@@ -9,12 +9,12 @@ export const sortByReducer =(state = 'artist', action) => {
   }
 }
 
-export const addReducer =(state = 'add', action) => {
+export const addReducer =(state = {mode: 'add'}, action) => {
   switch (action.type){
     case 'ADD_CURRENT_RECORD':
-      return state = 'add';
+      return {mode: 'add'};
     case 'EDIT_CURRENT_RECORD':
-      return state = 'edit';
+      return {mode:'edit', id: action.payload}
     default:
       return state;
   }

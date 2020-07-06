@@ -64,6 +64,12 @@ export const changeSize = term => {
     payload: term
   }
 }
+export const addID = term => {
+  return{
+    type: 'CHANGE_id',
+    payload: term
+  }
+}
 export const changeImage = term => {
   console.log(term)
   return{
@@ -92,9 +98,10 @@ export const addRecord = () => {
     type: 'ADD_CURRENT_RECORD'
   }
 }
-export const editRecord = () => {
+export const editRecord = (id) => {
   return {
-    type: 'EDIT_CURRENT_RECORD'
+    type: 'EDIT_CURRENT_RECORD',
+    payload: id
   }
 }
 
@@ -102,7 +109,7 @@ export const editRecord = () => {
 
 export const showEditor = () => {
   return {
-    type: 'SHOW_EDITOR'
+    type: 'SHOW_EDITOR',
   }
 }
 export const hideEditor = () => {
@@ -112,12 +119,6 @@ export const hideEditor = () => {
 }
 
 // VARIABLE ACTION
-  export const updateIndex = (nr) => {
-    return {
-      type: 'UPDATE_INDEX',
-      payload: nr
-    }
-  }
 
   export const updateImageArray = (arr) => {
     return {

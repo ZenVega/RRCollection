@@ -20,7 +20,7 @@ import {initialCollectionState} from './initialState';
     case 'REMOVE_RECORD':
       return {
         ...state, 
-        records: state.records.filter((record, index) => index !== action.payload)
+        records: state.records.filter((record) => record.id !== action.payload)
       }
     case 'EDIT_RECORD':
       return {
