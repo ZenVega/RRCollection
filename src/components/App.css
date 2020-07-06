@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   justify-content: center;
+  align-items: center;
 }
 
 /* NAV_BAR */
@@ -92,47 +93,68 @@ label{
 /*  EDITOR  */
 
 .Editor {
-  position:fixed;
+  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
   background-color: rgb(255, 255, 255);
   padding: 10px;
-  left: 50%;
+  padding-bottom:37px;
   top: 50%;
+  left:50%;
   transform: translate(-50%, -50%);
-  max-width: 600px;
+  width: 600px;
   border: #885d73 solid 2px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
   z-index: 4;
-  overflow: scroll;
 }
 
-.oneLine{
-width: 100%;
-}
-.oneBlock{
-  width: 200px;
+
+.Editor > .footer{
+  position: absolute;
+  left:50%;
+  transform: translate(-50%, 0);
+  bottom: 10px;
 }
 
-.inputWrapper {
-  flex-wrap: wrap;  
-  height: 25px;
-  padding: 5px;
+.inputBox{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  position: relative;
+  height: 300px;
+  width: 300px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: black, solid, 2px;
+}
+.inputBox>input{
+  margin: 5px;
+}
+
+
+.suggestionWrapper{
+  position: absolute;
+  width: 150px;
+  left:50%;
+  transform: translate(-50%, 0);
+  z-index:5;
+}
+
+.inputWrapper > input{
+  width: 150px;
+}
+
+.AutofillInput{
+  position:relative;
+  width: 150px;
 }
 
 .suggestion{
   position:relative;
-/*   display: none; */
   font-size: 12px;
-  z-index: 5;
   padding: 5px;
   background-color: #ceebe7;
   margin: 0;
-}
-
-.inputWrapper input:focus ~
-.suggestion {
-/*   display: block; */
 }
 
 .suggestion:hover {
@@ -199,3 +221,10 @@ margin-top: 2.5px;
   overflow: hidden;
   z-index: 1;
 }
+
+
+@media (max-width: 650px) { 
+  .Editor{
+    width: 300px;
+  }
+ }

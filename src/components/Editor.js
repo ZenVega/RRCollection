@@ -1,6 +1,6 @@
 /* eslint-disable default-case */
 import React from 'react';
-import Autofill from './Autofill';
+import InputPlusAutofill from './Autofill';
 import PicSelector from './PicSelector';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist , hideEditor } from '../actions';
@@ -116,77 +116,55 @@ function Editor(){
   }
 
   return (
-    <div>
-      <form className="Editor">
-        <div className="oneBlock">
-          <h2> {version + ' record'}</h2>
-          <div className="inputWrapper">
-            <input 
-              type="text"
-              name="addTitle"
-              value={title}
-              onChange={e => handleChange(e)}
-              placeholder="Title"/>  
-            <Autofill
-              className="Autofill"
-              term={title}
-              list={recordNames} 
-              onClickSuggestion={suggestion => dispatch(changeTitle(suggestion)) }
-            />
-          </div>
-          <div className="inputWrapper">
-            <input 
-              type="text"
-              name="addArtist"
-              value={artist}
-              onChange={e => handleChange(e)}
-              placeholder="Artist"/> 
-              <Autofill
-              className="Autofill"
-              term={artist}
-              list={artistNames} 
-              setTerm={changeArtist}/>
-            </div>
-          <div className="inputWrapper">
-            <input 
-              type="number"
-              name="addYear"
-              value={year}
-              onChange={e => handleChange(e)}
-              placeholder="Year"/> 
-            </div>
-          <div className="inputWrapper">
-            <input 
-              type="text"
-              name="addLabel"
-              value={label}
-              onChange={e => handleChange(e)}
-              placeholder="Label"/> 
-            <Autofill
-              className="Autofill"
-              term={label}
-              list={labelNames} 
-              setTerm={changeLabel}/>
-          </div>
-          <div className="inputWrapper">
-            <select 
-              name="addSize" 
-              value={size}
-              onChange={e => handleChange(e)}>
-              <option value="12">12"</option>
-              <option value="10">10"</option>
-              <option value="7">7"</option>
-            </select>
-          </div>
+    <div className="Editor">
+      <div className="inputBox">
+      <h2> {version + ' record'}</h2>
+        <InputPlusAutofill
+          className="inputWrapper"
+          term={title}
+          list={recordNames} 
+          placeholder="Title"
+          handleChange={newValue => dispatch(changeTitle(newValue))}
+          />
+        <InputPlusAutofill
+          className="inputWrapper"
+          term={artist}
+          list={artistNames} 
+          placeholder="Artist"
+          handleChange={newValue => dispatch(changeArtist(newValue))}
+          />
+        <input
+          className="inputWrapper" 
+          type="number"
+          name="addYear"
+          value={year}
+          onChange={e => handleChange(e)}
+          placeholder="Year"/> 
+        <InputPlusAutofill
+          className="inputWrapper"
+          term={label}
+          list={labelNames} 
+          placeholder="Label"
+          handleChange={newValue => dispatch(changeLabel(newValue))}
+          />
+        <div className="inputWrapper">
+          <select 
+            name="addSize" 
+            value={size}
+            onChange={e => handleChange(e)}>
+            <option value="12">12"</option>
+            <option value="10">10"</option>
+            <option value="7">7"</option>
+          </select>
         </div>
-        <PicSelector />
-        <div className="inputWrapper oneLine">
-          <button 
-          onClick={e => addItem(e)}
-          type="submit" >{version}</button>
-          <button onClick={() => dispatch(hideEditor())}>✖︎</button>
-        </div>
-      </form>
+      </div>
+      <PicSelector />
+      <div className="footer">
+        <button 
+        onClick={e => addItem(e)}
+        type="submit" >{version}</button>
+        <button onClick={() => dispatch(hideEditor())}>✖︎</button>
+      </div>
     </div>
   )
 }

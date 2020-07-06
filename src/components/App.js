@@ -8,7 +8,7 @@
 // Show Labels
 // Add database
 
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
 import Nav from './Nav';
 import Editor from './Editor';
