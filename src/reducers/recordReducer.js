@@ -25,6 +25,8 @@ const recordReducer = (state = initialRecordState, action) => {
         cover_image: action.payload}
     case 'CHANGE_INDEX':
       return {}
+    case 'UPDATE_REC_IN_PROG':
+      return action.payload
     default: return state;
   }
 }

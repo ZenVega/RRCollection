@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {removeRecord, updateImageArray, addRecord, editRecord, addID, showEditor, changeArtist, changeLabel, changeSize, changeTitle, changeYear, changeImage} from '../actions';
+import { removeRecord, editRecord, showEditor } from '../actions';
 
-
+//DELETE RECORD IS NOT WORKING
+// HOW TO PRESENT ALL KEY/VALUE PAIRS FROM AN OBJECT INSTEAD OF ARRAY
 
 function Record ({id, hiddenWhenSearchresult}) {
 
@@ -14,8 +15,7 @@ function Record ({id, hiddenWhenSearchresult}) {
   }
   
   const {records, labels, artists} = useSelector(state => state.collection);
-
-  const record = records.filter(record => record.id === id)[0]
+  const record = records[id]; //BECOMES UNDEFINED WHEN RECORD IS DELETED
 
   let img;
   let style;
@@ -30,60 +30,21 @@ function Record ({id, hiddenWhenSearchresult}) {
     img = record.cover_image
   }
 
-  const displayArtist = () => {
-    let currentArtist = artists.find(artist => artist.artistID === record.artistID)
-      return currentArtist.name;
-  }
-
-  const displayLabel = () => {
-    let currentLabel = labels.find(label => label.labelID === record.labelID)
-      return currentLabel.name;
-  }
-
   const openEditor = () => {
+
     dispatch(editRecord(id));
     dispatch(showEditor());
   }
 
-    /* if(hiddenWhenSearchresult){
-      openAdder();
-    } else {
-
-      dispatch(changeTitle(records[index].title));
-      dispatch(changeYear(records[index].year));
-      dispatch(changeSize(records[index].size));
-      dispatch(changeArtist(artists.filter(artist => artist.artistID === records[index].artistID)[0].name));
-      dispatch(changeLabel(labels.filter(label => label.labelID === records[index].labelID)[0].name));
-      dispatch(changeImage(records[index].cover_image));
-  
-      dispatch(editRecord());
-      dispatch(updateIndex(index))
-      dispatch(updateImageArray([records[index].cover_image]))} */
-    
-
-
-  /* const openAdder = () => {
-    dispatch(addRecord());
-    dispatch(showEditor());
-
-    dispatch(changeTitle(title));
-    dispatch(changeYear(year));
-    dispatch(changeSize(size));
-    dispatch(changeArtist(artist));
-    dispatch(changeLabel(label));
-    dispatch(changeImage(img));
-
-    dispatch(updateImageArray([img]))
-  } */
 
   return(
     <div className="Record" >
       <img className="backImage" src={img} alt="album_cover" style={istyle} />
       <div className="infoWrapper" style={style}>
         <h2>{record.title}</h2>
-        <h2>{displayArtist}</h2>
+        <h2>{artists[record.artistID].name}</h2>
         <p>{record.year}</p>
-        <p>{displayLabel}</p>
+        <p>{labels[record.labelID].name}</p>
         <p>{record.size}</p>
         <button 
           style={hiddenWhenSearchresult}

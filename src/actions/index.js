@@ -1,36 +1,33 @@
 //COLLECTION ACTIONS
 
-export const addNewRecord = obj => {
+export const addNewRecord = (id, obj) => {
   return{
     type: 'ADD_RECORD',
-    payload: obj
+    payload: obj,
+    id
   }
 }
-export const addNewLabel = obj => {
+export const addNewLabel = (id, obj) => {
   return{
     type: 'ADD_LABEL',
-    payload: obj
+    payload: obj,
+    id
   }
 }
-export const addNewArtist = obj => {
+export const addNewArtist = (id, obj) => {
   return{
     type: 'ADD_ARTIST',
-    payload: obj
+    payload: obj,
+    id
   }
 }
 export const removeRecord = id => {
   return{
     type: 'REMOVE_RECORD',
-    payload: id
+    id
   }
 }
-export const editExistingRecord = (id, obj) => {
-  return{
-    type: 'REMOVE_RECORD',
-    payload: id,
-    data: obj
-  }
-}
+
 
 // CURRENT RECORD ACTIONS
 
@@ -75,6 +72,12 @@ export const changeImage = term => {
   return{
     type: 'CHANGE_IMAGE',
     payload: term
+  }
+}
+export const updateRecordInProgress = obj => {
+  return {
+    type: 'UPDATE_REC_IN_PROG',
+    payload: obj
   }
 }
 

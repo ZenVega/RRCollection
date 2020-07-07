@@ -6,20 +6,21 @@ import { useSelector } from 'react-redux';
 
 function Collection () {
 
-  let {artists, labels, records} = useSelector(state => state.collection);
+  let {artists, records} = useSelector(state => state.collection);
+  let sortByTerm = useSelector(state => state.dashboard.sortBy); 
 
-  let sortByTerm = useSelector(state => state.dashboard.sortBy)
 
-    let newOrder = records.sort((a, b) => {
+    let newOrder = records.recordIDs.sort((a, b) => {
       let objA;
       let objB;
 
       if(sortByTerm === 'title'){
-        objA = a.title.toUpperCase();
-        objB = b.title.toUpperCase();  
+        objA = records[a].title.toUpperCase();
+        objB = records[b].title.toUpperCase();  
+
       } else if(sortByTerm === 'artist'){
-        objA = artists.find(artist => artist.artistID === a.artistID).name.toUpperCase();
-        objB = artists.find(artist => artist.artistID === b.artistID).name.toUpperCase();
+        objA = artists[records[a].artistID].name.toUpperCase();
+        objB = artists[records[b].artistID].name.toUpperCase();
       }
       
       let comparison = 0;
@@ -31,12 +32,12 @@ function Collection () {
       return comparison;
     });
 
-
- 
   return(
     <div className="Collection">
-      {newOrder.map(record => (
-      <Record id={record.id}
+      {newOrder.map((id, index) => (
+      <Record 
+      key={index}
+      id={id}
         />
     ))}
     </div>

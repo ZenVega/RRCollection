@@ -14,7 +14,7 @@ function SearchResults() {
 
 
   let filtered = results.filter(filterArtist).filter(filterResults).filter(filterMedia).filter(filterVinyl);
-  console.log(filtered);
+
 
   return results && (
     <div className="searchResults">

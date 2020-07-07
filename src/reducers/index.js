@@ -28,21 +28,6 @@ export default allReducers;
 
 
 
-
-const oldReducers = combineReducers({
-  collection: collectionReducer,
-    sortBy: sortByReducer,
-    searchResults: searchResultsReducer,
-    record: recordReducer,
-    add: addReducer,
-    currentIndex: indexReducer,
-    imageArray: updateImageReducer,
-    editor: showEditorReducer,
-    picSelectorStyle: updatePicSelectorStyle,
-});
-
-
-
 // const state = {
 //   collections: {
 //     records: [],

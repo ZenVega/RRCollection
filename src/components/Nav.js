@@ -3,7 +3,7 @@ import Discogs from './util/Discogs';
 import { sortByArtist, sortByTitle } from '../actions';
 import { useDispatch } from 'react-redux';
 import { addRecord } from '../actions';
-import { changeArtist, changeLabel, changeSize, changeTitle, changeYear , showEditor, updateIndex, updateSearchResults} from '../actions';
+import { showEditor, updateSearchResults} from '../actions';
 
 
 const changeHandler = (e, setTerm) => {
@@ -47,15 +47,6 @@ const Nav = () => {
   const openEditor = () => {
     dispatch(addRecord());
     dispatch(showEditor());
-    /* console.log('open')
-    dispatch(addRecord());
-    dispatch(updateIndex(''));
-    dispatch(changeTitle(''));
-    dispatch(changeYear(''));
-    dispatch(changeSize('12'));
-    dispatch(changeArtist(''));
-    dispatch(changeLabel(''));
-    dispatch(showEditor()); */
   }
 
   return(

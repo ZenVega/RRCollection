@@ -1,9 +1,9 @@
 /* eslint-disable default-case */
-import React from 'react';
+import React ,{useEffect} from 'react';
 import InputPlusAutofill from './Autofill';
 import PicSelector from './PicSelector';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist , hideEditor } from '../actions';
+import { updateRecordInProgress, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist , hideEditor, changeImage } from '../actions';
 const { v4: generateID } = require('uuid');
 
 // ADD RECORD IN PROGRESS 
@@ -11,6 +11,28 @@ const { v4: generateID } = require('uuid');
 // save collection in object instead of array
 
 function Editor(){
+  
+  useEffect(() => {
+    if(mode === 'edit'){
+      dispatch(updateRecordInProgress({
+        title: records[id].title,
+        year: records[id].year,
+        label: labels[records[id].labelID].name,
+        artist: artists[records[id].artistID].name,
+        size: records[id].size,
+        cover_image: records[id].cover_image
+      }))
+    } else if (mode === 'add'){
+      dispatch(updateRecordInProgress({
+        title: '',
+        year: '',
+        label: '',
+        artist: '',
+        size: 'LP',
+        cover_image: './norecord.png'
+      }))
+    }
+  },[]);
 
   const dispatch = useDispatch();
   
@@ -18,59 +40,44 @@ function Editor(){
   const {records, artists, labels} = useSelector(state => state.collection);
   const { title, year ,label, artist, size, cover_image} = useSelector(state => state.editor.recordInProgress);
 
-  const labelNames = labels.map(label => label.name);
-  const artistNames = artists.map(artist => artist.name);
-  const recordNames = records.map(record => record.title);
+  const labelNames = labels.labelIDs.map(id => labels[id].name);
+  const artistNames = artists.artistIDs.map(id => artists[id].name);
+  const recordNames = records.recordIDs.map(id => records[id].title);
 
-  console.log('record' + generateID())
 
   const addItem = () => {
 
-    if(!title || !artist){
-      alert('Title or Artist Missing');
+    if(!title || !artist || !label){
+      alert('Title, Artist or Label Missing');
       return;
     }
 
+    let artistID;
+    let labelID;
 
-    if(id !== undefined){
-      dispatch(removeRecord(id));
+    if(id){
+     artistID = records[id].artistID;
+     labelID = records[id].labelID;
+
     } else {
       id = 'record.' + generateID();
-    }
-
-    let artistID;
-    let artistObj = artists.find(inListArtist => inListArtist.name === artist);
-    if(artistObj){
-      artistID = artistObj.artistID;
-    }
-
-    if(!artistID){
       artistID = 'artist.' + generateID();
+      labelID = 'label.' + generateID();
+
       const artistToAdd = {
         name: artist,
         artistID: artistID
       };
-      dispatch(addNewArtist(artistToAdd))
-    }
-
-    let labelID;
-    let labelObj = labels.find(inListLabel => inListLabel.name === label);
-    if(labelObj){
-      labelID = labelObj.labelID;
-    }
-
-    if(!labelID){
-      labelID = 'label.' + generateID();
+      dispatch(addNewArtist(artistID, artistToAdd))
+      
       const labelToAdd = {
         name: label,
         labelID: labelID
       };
-      dispatch(addNewLabel(labelToAdd))
+      dispatch(addNewLabel(labelID, labelToAdd))
     }
-     
 
     const recordToAdd = {
-      id,
       artistID,
       title,
       year,
@@ -78,7 +85,7 @@ function Editor(){
       labelID,
       cover_image
     };
-    dispatch(addNewRecord(recordToAdd));
+    dispatch(addNewRecord(id, recordToAdd));
     dispatch(hideEditor());
   }
 
@@ -102,6 +109,14 @@ function Editor(){
           placeholder="Artist"
           handleChange={newValue => dispatch(changeArtist(newValue))}
           />
+          <InputPlusAutofill
+            className="inputWrapper"
+            term={label? label: ''}
+            fromTop={130}
+            list={labelNames} 
+            placeholder="Label"
+            handleChange={newValue => dispatch(changeLabel(newValue))}
+            />
         <input
           className="inputWrapper" 
           type="number"
@@ -110,14 +125,6 @@ function Editor(){
           style={{top: '160px'}}
           onChange={e => dispatch(changeYear(e.target.value))}
           placeholder="Year"/> 
-        <InputPlusAutofill
-          className="inputWrapper"
-          term={label? label: ''}
-          fromTop={130}
-          list={labelNames} 
-          placeholder="Label"
-          handleChange={newValue => dispatch(changeLabel(newValue))}
-          />
         <div 
           className="inputWrapper"
           style={{top: '190px'}}>

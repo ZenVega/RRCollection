@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import { updatePicSelectorStyle, updateImageArray, changeImage } from '../actions';
 
 // SATZZEICHEN IN DER BILDERSUCHE SIND PROBLEMATISCH
+// STYLE UPDATE VEREINFACHEN
 
 function PicSelector () {
   const dispatch = useDispatch()
