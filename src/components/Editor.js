@@ -6,24 +6,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeRecord, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist , hideEditor } from '../actions';
 const { v4: generateID } = require('uuid');
 
-// ADD RECORD IN PROGRESS // SWITCH BETWEEN MODES
+// ADD RECORD IN PROGRESS 
+// SWITCH BETWEEN MODES 
+// save collection in object instead of array
 
 function Editor(){
 
-  let {mode, id} = useSelector(state => state.editor.setup);
-
   const dispatch = useDispatch();
-
+  
+  let {mode, id} = useSelector(state => state.editor.setup);
   const {records, artists, labels} = useSelector(state => state.collection);
-
   const { title, year ,label, artist, size, cover_image} = useSelector(state => state.editor.recordInProgress);
 
-  
   const labelNames = labels.map(label => label.name);
   const artistNames = artists.map(artist => artist.name);
   const recordNames = records.map(record => record.title);
 
-
+  console.log('record' + generateID())
 
   const addItem = () => {
 
@@ -34,10 +33,9 @@ function Editor(){
 
 
     if(id !== undefined){
-      console.log(id);
       dispatch(removeRecord(id));
     } else {
-      id = generateID();
+      id = 'record.' + generateID();
     }
 
     let artistID;
@@ -47,7 +45,7 @@ function Editor(){
     }
 
     if(!artistID){
-      artistID = generateID();
+      artistID = 'artist.' + generateID();
       const artistToAdd = {
         name: artist,
         artistID: artistID
@@ -62,7 +60,7 @@ function Editor(){
     }
 
     if(!labelID){
-      labelID = generateID();
+      labelID = 'label.' + generateID();
       const labelToAdd = {
         name: label,
         labelID: labelID

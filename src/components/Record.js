@@ -16,7 +16,6 @@ function Record ({id, hiddenWhenSearchresult}) {
   const {records, labels, artists} = useSelector(state => state.collection);
 
   const record = records.filter(record => record.id === id)[0]
-  console.log(record)
 
   let img;
   let style;
