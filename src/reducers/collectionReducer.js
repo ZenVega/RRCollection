@@ -7,9 +7,8 @@ import {initialCollectionState} from './initialState';
         ...state, 
           records: {
           ...state.records,
-          [action.id]: action.payload
-          },
-          recordIDs: state.records.recordIDs.push(action.id)
+          [action.id]: action.payload,
+          recordIDs: state.records.recordIDs.concat(action.id)          },
       }
     case 'ADD_LABEL':
       return {
@@ -30,19 +29,18 @@ import {initialCollectionState} from './initialState';
     case 'REMOVE_RECORD':
       let recordUpdate = {...state.records}
       delete recordUpdate[action.id]
-      let recordIDUpdate = state.records.recordIDs.filter(id => id === action.id)
-      recordUpdate.recordIDs = recordIDUpdate
+      recordUpdate.recordIDs = state.records.recordIDs.filter(id => id !== action.id)
       return {
         ...state,
         records: recordUpdate
         }
-          
-         /* recordIDs: state.records.recordIDs.filter(id => id = action.id) */
-      
     case 'EDIT_RECORD':
       return {
         ...state, 
-        records: state.records.splice(action.payload)
+        records: {
+          ...state.records,
+          [action.id] : action.payload
+        }
       }
     default:
       return state;

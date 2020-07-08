@@ -3,7 +3,7 @@ import React ,{useEffect} from 'react';
 import InputPlusAutofill from './Autofill';
 import PicSelector from './PicSelector';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateRecordInProgress, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, addNewLabel, addNewArtist , hideEditor, changeImage } from '../actions';
+import { updateRecordInProgress, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, editRecord, addNewLabel, addNewArtist , hideEditor } from '../actions';
 const { v4: generateID } = require('uuid');
 
 // ADD RECORD IN PROGRESS 
@@ -32,7 +32,9 @@ function Editor(){
         cover_image: './norecord.png'
       }))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
+
 
   const dispatch = useDispatch();
   
@@ -85,30 +87,35 @@ function Editor(){
       labelID,
       cover_image
     };
-    dispatch(addNewRecord(id, recordToAdd));
+
+    if(mode === 'edit'){
+      dispatch(editRecord(id, recordToAdd));
+    } else if (mode === 'add'){
+      dispatch(addNewRecord(id, recordToAdd));
+    }
     dispatch(hideEditor());
   }
 
   return (
     <div className="Editor">
       <div className="inputBox">
-      <h2 className="EditorHeader" > {mode + ' record'}</h2>
-        <InputPlusAutofill
-          className="inputWrapper"
-          term={title}
-          list={recordNames} 
-          fromTop={70}
-          placeholder="Title"
-          handleChange={newValue => dispatch(changeTitle(newValue))}
-          />
-        <InputPlusAutofill
-          className="inputWrapper"
-          term={artist}
-          list={artistNames} 
-          fromTop={100}
-          placeholder="Artist"
-          handleChange={newValue => dispatch(changeArtist(newValue))}
-          />
+        <h2 className="EditorHeader" > {mode + ' record'}</h2>
+          <InputPlusAutofill
+            className="inputWrapper"
+            term={title}
+            list={recordNames} 
+            fromTop={70}
+            placeholder="Title"
+            handleChange={newValue => dispatch(changeTitle(newValue))}
+            />
+          <InputPlusAutofill
+            className="inputWrapper"
+            term={artist}
+            list={artistNames} 
+            fromTop={100}
+            placeholder="Artist"
+            handleChange={newValue => dispatch(changeArtist(newValue))}
+            />
           <InputPlusAutofill
             className="inputWrapper"
             term={label? label: ''}
@@ -117,17 +124,17 @@ function Editor(){
             placeholder="Label"
             handleChange={newValue => dispatch(changeLabel(newValue))}
             />
-        <input
-          className="inputWrapper" 
-          type="number"
-          name="addYear"
-          value={year}
-          style={{top: '160px'}}
-          onChange={e => dispatch(changeYear(e.target.value))}
-          placeholder="Year"/> 
-        <div 
-          className="inputWrapper"
-          style={{top: '190px'}}>
+          <input
+            className="inputWrapper" 
+            type="number"
+            name="addYear"
+            value={year}
+            style={{top: '160px'}}
+            onChange={e => dispatch(changeYear(e.target.value))}
+            placeholder="Year"/> 
+          <div 
+            className="inputWrapper"
+            style={{top: '190px'}}>
           <select 
             name="addSize" 
             value={size}
@@ -142,7 +149,7 @@ function Editor(){
       <PicSelector />
       <div className="footer">
         <button 
-        onClick={e => addItem(e)}
+        onClick={() => addItem()}
         type="submit" >{mode}</button>
         <button onClick={() => dispatch(hideEditor())}>✖︎</button>
       </div>

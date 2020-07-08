@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Discogs from './util/Discogs';
 import { sortByArtist, sortByTitle } from '../actions';
 import { useDispatch } from 'react-redux';
-import { addRecord } from '../actions';
+import { addRecordMode } from '../actions';
 import { showEditor, updateSearchResults} from '../actions';
 
 
@@ -45,7 +45,7 @@ const Nav = () => {
   }
 
   const openEditor = () => {
-    dispatch(addRecord());
+    dispatch(addRecordMode());
     dispatch(showEditor());
   }
 

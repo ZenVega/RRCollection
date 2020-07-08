@@ -2,13 +2,12 @@ import React from 'react';
 import Record from './Record';
 import { useSelector } from 'react-redux';
 
-
+//COLLECTION WIRD 2X GEMOUNTED"
 
 function Collection () {
 
   let {artists, records} = useSelector(state => state.collection);
   let sortByTerm = useSelector(state => state.dashboard.sortBy); 
-
 
     let newOrder = records.recordIDs.sort((a, b) => {
       let objA;

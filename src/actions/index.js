@@ -27,6 +27,13 @@ export const removeRecord = id => {
     id
   }
 }
+export const editRecord = (id, obj) => {
+  return{
+    type: 'EDIT_RECORD',
+    payload: obj,
+    id
+  }
+}
 
 
 // CURRENT RECORD ACTIONS
@@ -96,12 +103,12 @@ export const sortByTitle = () => {
 
 // ADD ACTIONS
 
-export const addRecord = () => {
+export const addRecordMode = () => {
   return {
     type: 'ADD_CURRENT_RECORD'
   }
 }
-export const editRecord = (id) => {
+export const editRecordMode = (id) => {
   return {
     type: 'EDIT_CURRENT_RECORD',
     payload: id

@@ -12,9 +12,8 @@ function SearchResults() {
   const filterMedia = result => result.format;
   const filterVinyl = result => result.format[0] === 'Vinyl';
 
-
   let filtered = results.filter(filterArtist).filter(filterResults).filter(filterMedia).filter(filterVinyl);
-
+console.log(filtered)
 
   return results && (
     <div className="searchResults">
@@ -22,12 +21,11 @@ function SearchResults() {
         {filtered.map((record, index) => {
           return <Record 
             key={record.id}
-            index={index}
+            searchResult={record}
             title={record.title} 
             year={record.year}
             label={record.label.filter((label, index) => index<5).join(' | ')}
             size={record.format? record.format[1] : ''}
-            hiddenWhenSearchresult={{display: 'none'}}
             img={record.cover_image}/>
           })} 
       </div>

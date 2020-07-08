@@ -1,38 +1,44 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeRecord, editRecord, showEditor } from '../actions';
+import { removeRecord, editRecordMode, showEditor } from '../actions';
 
-//DELETE RECORD IS NOT WORKING
-// HOW TO PRESENT ALL KEY/VALUE PAIRS FROM AN OBJECT INSTEAD OF ARRAY
-
-function Record ({id, hiddenWhenSearchresult}) {
+function Record ({id, searchResult}) {
 
   let dispatch =  useDispatch();
   
   let addButton = '✎';
-  if(hiddenWhenSearchresult){
+  if(searchResult){
     addButton = 'add';
   }
-  
+  let record
   const {records, labels, artists} = useSelector(state => state.collection);
-  const record = records[id]; //BECOMES UNDEFINED WHEN RECORD IS DELETED
+  if(id){
+    record = records[id];
+    console.log(record)
+  } else if(searchResult){
+    console.log(searchResult)
+    record = searchResult;
+  } 
+   //BECOMES UNDEFINED WHEN RECORD IS DELETED
 
+
+   
   let img;
   let style;
   let istyle;
   
   if(!record.cover_image || record.cover_image === './norecord.png'){
    img = './norecord.png';
-    style = { zIndex: 2,
-              opacity: 1}
-              istyle={opacity: 0.2}
+    style = { 
+      zIndex: 2,
+      opacity: 1}
+      istyle={opacity: 0.2}
   } else {
     img = record.cover_image
   }
 
   const openEditor = () => {
-
-    dispatch(editRecord(id));
+    dispatch(editRecordMode(id));
     dispatch(showEditor());
   }
 
@@ -47,7 +53,7 @@ function Record ({id, hiddenWhenSearchresult}) {
         <p>{labels[record.labelID].name}</p>
         <p>{record.size}</p>
         <button 
-          style={hiddenWhenSearchresult}
+          style={searchResult? {display: 'none'} : {display: 'block'}}
           onClick={() => dispatch(removeRecord(id))}>✖︎</button>
         <button onClick={() => openEditor()}>{addButton}</button>
       </div>
