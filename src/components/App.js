@@ -10,16 +10,16 @@
 
 import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
-import Nav from './Nav';
-import Editor from './Editor';
-import Collection from './Collection';
-import SearchResults from './SearchResults';
+import Nav from './Nav/Nav';
+import Editor from './Editor/Editor';
+import Collection from './Main/Collection';
+import SearchResults from './Main/SearchResults';
 import Discogs from './util/Discogs';
 import './App.css';
 
 function App() {
 
-
+const colSearchSwitch = useSelector(state => state.dashboard.colSearchSwitch)
   const showEditor = useSelector(state => state.editor.show);
   const [search, setSearch] = useState([]);
 
@@ -32,9 +32,8 @@ function App() {
     <div className="App">
       <Nav onSearch={handleSearch}/>
       { showEditor && <Editor/> }
-      <SearchResults 
-        results={search} />
-      <Collection />
+      {colSearchSwitch === 'col'? <Collection /> : <SearchResults 
+        results={search} />}
     </div>
   );
 }

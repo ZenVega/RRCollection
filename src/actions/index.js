@@ -75,7 +75,6 @@ export const addID = term => {
   }
 }
 export const changeImage = term => {
-  console.log(term)
   return{
     type: 'CHANGE_IMAGE',
     payload: term
@@ -101,6 +100,17 @@ export const sortByTitle = () => {
   }
 }
 
+export const showCollection = () => {
+  return {
+    type: 'SHOW_COLLECTION'
+  }
+}
+export const showSearch = () => {
+  return {
+    type: 'SHOW_SEARCHRESULTS'
+  }
+}
+
 // ADD ACTIONS
 
 export const addRecordMode = () => {
@@ -108,7 +118,7 @@ export const addRecordMode = () => {
     type: 'ADD_CURRENT_RECORD'
   }
 }
-export const editRecordMode = (id) => {
+export const editRecordMode = id => {
   return {
     type: 'EDIT_CURRENT_RECORD',
     payload: id
@@ -136,23 +146,17 @@ export const hideEditor = () => {
 
 // VARIABLE ACTION
 
-  export const updateImageArray = (arr) => {
+  export const updateImageArray = arr => {
     return {
       type: 'UPDATE_IMAGE_ARRAY',
       payload: arr
     }
   }
-  export const updatePicSelectorStyle = (key, obj) => {
-    return {
-      type: 'UPDATE_PIC_SELECTOR_STYLE',
-      payload: obj,
-      key
-    }
-  }
+
   
   // SEARCHRESULTS ACTION
 
-    export const updateSearchResults = (arrayOfObjects) => {
+    export const updateSearchResults = arrayOfObjects => {
       return {
         type: 'UPDATE_SEARCH_RESULTS',
         payload: arrayOfObjects

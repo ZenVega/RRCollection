@@ -10,7 +10,7 @@ export const indexReducer = (state = '', action) => {
      }
   }
 
-export const updateImageReducer = (state = ['./norecord.png'], action) => {
+export const updateImageReducer = (state = "", action) => {
   switch(action.type){
     case 'UPDATE_IMAGE_ARRAY':
       return  state = action.payload;
@@ -19,24 +19,6 @@ export const updateImageReducer = (state = ['./norecord.png'], action) => {
   }
 }
 
-
-const initialStateofPicSelector = {
-  findBtn: {display: 'block'},
-  urlInput: {top: '46%'},
-  preNxt : {display: 'none'},
-  previewImage: {opacity: 0.5}
-}
-
-export const updatePicSelectorStyle = (state = initialStateofPicSelector, action) => {
-  switch(action.type){
-    case 'UPDATE_PIC_SELECTOR_STYLE':
-      return  { ...state,
-        [action.key]: action.payload}
-
-      default:
-        return state
-  }
-}
     
 
 

@@ -1,13 +1,14 @@
 import { combineReducers } from 'redux';
 import collectionReducer from './collectionReducer';
 import recordReducer from './recordReducer';
-import { sortByReducer, addReducer, showEditorReducer }from './switchReducers';
-import { updatePicSelectorStyle,indexReducer, updateImageReducer } from './varReducer';
+import { sortByReducer, addReducer, showEditorReducer, switchColSearchReducer }from './switchReducers';
+import { indexReducer, updateImageReducer } from './varReducer';
 import searchResultsReducer from './searchResultsReducer';
 
 const dashboard = combineReducers({
   sortBy: sortByReducer,
-  searchResults: searchResultsReducer
+  searchResults: searchResultsReducer,
+  colSearchSwitch: switchColSearchReducer
 })
 
 const editor = combineReducers({
@@ -16,7 +17,6 @@ const editor = combineReducers({
     recordInProgress: recordReducer,
     currentIndex: indexReducer,
     imageSearch: updateImageReducer,
-    picSelectorStyle: updatePicSelectorStyle
 })
 
 const allReducers = combineReducers({
@@ -25,27 +25,3 @@ const allReducers = combineReducers({
   editor
 });
 export default allReducers;
-
-
-
-// const state = {
-//   collections: {
-//     records: [],
-//     artists: [],
-//     labels: []
-//   },
-//   dashboard: {
-//     sortBy: "artist",
-//     search: "asdhjasd",
-//     activeView: "collection"
-//   },
-//   editor: {
-//     isAdd: false;
-//     show: false,
-//     record: {
-//       index: 2,
-//       title: "asd",
-//       year: 2018
-//     }
-//   },
-// }

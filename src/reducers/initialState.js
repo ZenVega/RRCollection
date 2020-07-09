@@ -32,7 +32,15 @@ export const initialCollectionState = {
       size: 'LP',
       cover_image: 'https://img.discogs.com/cf9qM3urGRungckDePkHhyR8fu0=/fit-in/600x591/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-14513163-1576077255-1932.jpeg.jpg'
     },
-    recordIDs: ['199a71bf-cc4a-4bde-9ec2-9fb81d10fed5', '199a71bf-cc4a-4bde-9ec2-9fb81d10fedg', '199a71bf-cc4a-4bde-9ec2-9fb81df0fed5', '199a71bf-cc4a-4bde-9ec2-9fb8ft10fed5']
+    '199a71bf-cc4a-4bde-9ec2-9fb8ftdffed5': {
+      title:"ZOO",
+      artistID: 5,
+      labelID: 5,
+      year: 2019,
+      size: 'LP',
+      cover_image: 'https://img.discogs.com/-pu1ksiCrJJsU_cJ06FwVpdzNCY=/fit-in/540x540/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-3322775-1325859408.jpeg.jpg'
+    },
+    recordIDs: ['199a71bf-cc4a-4bde-9ec2-9fb81d10fed5', '199a71bf-cc4a-4bde-9ec2-9fb81d10fedg', '199a71bf-cc4a-4bde-9ec2-9fb81df0fed5', '199a71bf-cc4a-4bde-9ec2-9fb8ft10fed5', '199a71bf-cc4a-4bde-9ec2-9fb8ftdffed5']
   },
   artists: {
     1:{
@@ -41,13 +49,16 @@ export const initialCollectionState = {
     2:{
       name: "AUS",
     },  
-    4:{
-      name: "S.Y.P.H.",
-    },
     3:{
       name: "VUG",
     },
-    artistIDs: [1,2,4,3]
+    4:{
+      name: "S.Y.P.H.",
+    },
+    5:{
+      name: "Ceremony",
+    },
+    artistIDs: [1,2,3,4,5]
   },
   labels: {
     1: {
@@ -62,7 +73,10 @@ export const initialCollectionState = {
     4: {
       name: "supi deutschpunk",
     },
-    labelIDs: [1,2,3,4]
+    5: {
+      name: "Matador",
+    },
+    labelIDs: [1,2,3,4,5]
 
   },
 

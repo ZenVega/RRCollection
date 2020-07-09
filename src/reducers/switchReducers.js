@@ -32,3 +32,15 @@ export const showEditorReducer = (state = false, action) => {
       return state
   }
 }
+
+export const switchColSearchReducer = (state = 'col', action) => {
+  switch (action.type){
+    case 'SHOW_COLLECTION':
+      return 'col'
+    case 'SHOW_SEARCHRESULTS':
+      return 'search'
+    default: 
+      return state
+  }
+}
+
