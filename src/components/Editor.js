@@ -6,11 +6,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateRecordInProgress, changeArtist, changeLabel, changeSize, changeTitle, changeYear, addNewRecord, editRecord, addNewLabel, addNewArtist , hideEditor } from '../actions';
 const { v4: generateID } = require('uuid');
 
-// ADD RECORD IN PROGRESS 
-// SWITCH BETWEEN MODES 
-// save collection in object instead of array
 
 function Editor(){
+  const dispatch = useDispatch();
+  
+  let {mode, id, searchResult} = useSelector(state => state.editor.setup);
+  const {records, artists, labels} = useSelector(state => state.collection);
+  const { title, year ,label, artist, size, cover_image} = useSelector(state => state.editor.recordInProgress);
   
   useEffect(() => {
     if(mode === 'edit'){
@@ -31,16 +33,21 @@ function Editor(){
         size: 'LP',
         cover_image: './norecord.png'
       }))
+    } else if (mode === 'addFromSearch'){
+        dispatch(updateRecordInProgress({
+          title: searchResult.title,
+          year: searchResult.year,
+          label: searchResult.label,
+          artist: searchResult.artist,
+          size: searchResult.size,
+          cover_image: searchResult.cover_image
+        }))
+
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
 
-  const dispatch = useDispatch();
-  
-  let {mode, id} = useSelector(state => state.editor.setup);
-  const {records, artists, labels} = useSelector(state => state.collection);
-  const { title, year ,label, artist, size, cover_image} = useSelector(state => state.editor.recordInProgress);
 
   const labelNames = labels.labelIDs.map(id => labels[id].name);
   const artistNames = artists.artistIDs.map(id => artists[id].name);
@@ -90,7 +97,7 @@ function Editor(){
 
     if(mode === 'edit'){
       dispatch(editRecord(id, recordToAdd));
-    } else if (mode === 'add'){
+    } else if (mode === 'add' || 'addFromSearch'){
       dispatch(addNewRecord(id, recordToAdd));
     }
     dispatch(hideEditor());

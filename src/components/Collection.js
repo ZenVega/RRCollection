@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 function Collection () {
 
-  let {artists, records} = useSelector(state => state.collection);
+  let {artists, records, labels} = useSelector(state => state.collection);
   let sortByTerm = useSelector(state => state.dashboard.sortBy); 
 
     let newOrder = records.recordIDs.sort((a, b) => {
@@ -31,12 +31,19 @@ function Collection () {
       return comparison;
     });
 
+
   return(
     <div className="Collection">
       {newOrder.map((id, index) => (
       <Record 
       key={index}
       id={id}
+      title={records[id].title}
+      artist={artists[records[id].artistID].name}
+      label={labels[records[id].labelID].name}
+      size={records[id].size}
+      year={records[id].year}
+      img={records[id].cover_image}
         />
     ))}
     </div>

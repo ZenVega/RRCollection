@@ -18,11 +18,22 @@ console.log(filtered)
   return results && (
     <div className="searchResults">
       <div className="Wrapper" >
-        {filtered.map((record, index) => {
+        {filtered.map(record => {
+          let searchResult = {
+            artist: record.title.substring(0, record.title.indexOf(' - ')),
+            title: record.title.substring(record.title.indexOf(' - ')+3),
+            year: record.year,
+            label: record.label.filter((label, index) => index<5).join(' | '),
+            size: record.format? record.format[1] : '',
+            cover_image: record.cover_image
+          }
+          let artist = record.title.substring(0, record.title.indexOf(' - '))
+          let title = record.title.substring(record.title.indexOf(' - ')+3)
           return <Record 
             key={record.id}
-            searchResult={record}
-            title={record.title} 
+            artist={artist}
+            searchResult={searchResult}
+            title={title} 
             year={record.year}
             label={record.label.filter((label, index) => index<5).join(' | ')}
             size={record.format? record.format[1] : ''}

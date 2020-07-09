@@ -15,6 +15,8 @@ export const addReducer =(state = {mode: 'add'}, action) => {
       return {mode: 'add'};
     case 'EDIT_CURRENT_RECORD':
       return {mode:'edit', id: action.payload}
+    case 'ADD_CURRENT_RECORD_FROM_SEARCH':
+      return {mode:'addFromSearch', searchResult: action.payload}
     default:
       return state;
   }

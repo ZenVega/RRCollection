@@ -114,6 +114,12 @@ export const editRecordMode = (id) => {
     payload: id
   }
 }
+export const addFromSearchMode = (searchResult) => {
+  return {
+    type: 'ADD_CURRENT_RECORD_FROM_SEARCH',
+    payload: searchResult
+  }
+}
 
 //EDITOR ACTION
 

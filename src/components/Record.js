@@ -1,59 +1,43 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeRecord, editRecordMode, showEditor } from '../actions';
+import { useDispatch } from 'react-redux';
+import { addFromSearchMode, removeRecord, editRecordMode, showEditor } from '../actions';
 
-function Record ({id, searchResult}) {
+function Record ({id, searchResult, title, label, year, artist, size, img}) {
 
   let dispatch =  useDispatch();
   
-  let addButton = '✎';
-  if(searchResult){
-    addButton = 'add';
-  }
-  let record
-  const {records, labels, artists} = useSelector(state => state.collection);
-  if(id){
-    record = records[id];
-    console.log(record)
-  } else if(searchResult){
-    console.log(searchResult)
-    record = searchResult;
-  } 
-   //BECOMES UNDEFINED WHEN RECORD IS DELETED
+  let addButton = id? '✎' : 'add';
 
-
-   
-  let img;
   let style;
   let istyle;
-  
-  if(!record.cover_image || record.cover_image === './norecord.png'){
+  if(!img || img === './norecord.png'){
    img = './norecord.png';
     style = { 
       zIndex: 2,
       opacity: 1}
       istyle={opacity: 0.2}
-  } else {
-    img = record.cover_image
   }
 
   const openEditor = () => {
-    dispatch(editRecordMode(id));
+    if(id){
+      dispatch(editRecordMode(id));
+    } else if (searchResult){
+      dispatch(addFromSearchMode(searchResult))
+    }
     dispatch(showEditor());
   }
-
 
   return(
     <div className="Record" >
       <img className="backImage" src={img} alt="album_cover" style={istyle} />
       <div className="infoWrapper" style={style}>
-        <h2>{record.title}</h2>
-        <h2>{artists[record.artistID].name}</h2>
-        <p>{record.year}</p>
-        <p>{labels[record.labelID].name}</p>
-        <p>{record.size}</p>
+        <h2>{title}</h2>
+        <h2>{artist}</h2>
+        <p>{year}</p>
+        <p>{label}</p>
+        <p>{size}</p>
         <button 
-          style={searchResult? {display: 'none'} : {display: 'block'}}
+          style={searchResult? {display: 'none'} : undefined}
           onClick={() => dispatch(removeRecord(id))}>✖︎</button>
         <button onClick={() => openEditor()}>{addButton}</button>
       </div>
