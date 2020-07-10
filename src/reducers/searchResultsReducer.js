@@ -1,4 +1,4 @@
-const searchResultsReducer = (state = [], action) => {
+const searchResultsReducer = (state = {response: []}, action) => {
   switch(action.type){
     case 'UPDATE_SEARCH_RESULTS':
      return action.payload

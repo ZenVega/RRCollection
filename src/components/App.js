@@ -1,8 +1,8 @@
 //EDITOR WIRD 2X GEMOUNTED
 //deactivate autofill from browser
-//komplett auf redux umstellen bzw state/let/selector mischen?
-
-
+//sortBy auch für searchresults
+//show more results
+//label array bei suche verwalten
 
 // Show Artists
 // Show Labels
@@ -19,21 +19,14 @@ import './App.css';
 
 function App() {
 
-const colSearchSwitch = useSelector(state => state.dashboard.colSearchSwitch)
+  const colSearchSwitch = useSelector(state => state.dashboard.colSearchSwitch)
   const showEditor = useSelector(state => state.editor.show);
-  const [search, setSearch] = useState([]);
-
-  const handleSearch = (term) => {
-    Discogs.search(term)
-    .then(response => setSearch(response.results));
-  }
 
   return (
     <div className="App">
-      <Nav onSearch={handleSearch}/>
+      <Nav/>
       { showEditor && <Editor/> }
-      {colSearchSwitch === 'col'? <Collection /> : <SearchResults 
-        results={search} />}
+      {colSearchSwitch === 'col'? <Collection /> : <SearchResults />}
     </div>
   );
 }
